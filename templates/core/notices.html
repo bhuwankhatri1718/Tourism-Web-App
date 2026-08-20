@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Notices | Nepal Tourism E-Governance Portal{% endblock %}
+
+{% block content %}
+
+<div class="breadcrumb"><a href="{% url 'home' %}">Home</a> &gt; Notices</div>
+
+<div class="section">
+    <div class="section-header"><h2>Public Notices</h2></div>
+    <div class="section-body">
+        <ul class="notice-list">
+            {% for n in notices %}
+                <li>
+                    <strong>{{ n.title }}</strong>
+                    <span class="notice-date">{{ n.published_date }}</span>
+                    <br>{{ n.description }}
+                </li>
+            {% empty %}
+                <li>No notices have been published yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

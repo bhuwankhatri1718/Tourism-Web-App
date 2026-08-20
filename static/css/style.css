@@ -1,0 +1,327 @@
+/* ===================================================
+   Nepal Tourism E-Governance Portal - Government Theme
+   =================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    background-color: #f2f4f6;
+    color: #222;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ---------------- TOP GOVERNMENT STRIP ---------------- */
+
+.gov-strip {
+    background-color: #002147;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 5px 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ---------------- HEADER ---------------- */
+
+.site-header {
+    background-color: #ffffff;
+    border-bottom: 4px solid #DC143C;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-emblem {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #002147;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+}
+
+.brand-text h1 {
+    font-size: 20px;
+    color: #002147;
+}
+
+.brand-text p {
+    font-size: 12px;
+    color: #555;
+}
+
+/* ---------------- NAV ---------------- */
+
+.main-nav {
+    background-color: #002147;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.main-nav li a {
+    display: block;
+    padding: 12px 20px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.main-nav li a:hover {
+    background-color: #DC143C;
+}
+
+/* ---------------- LAYOUT ---------------- */
+
+.page-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 25px 20px 60px 20px;
+}
+
+.breadcrumb {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.breadcrumb a {
+    color: #002147;
+    font-weight: 600;
+}
+
+/* ---------------- HERO ---------------- */
+
+.hero {
+    background: linear-gradient(rgba(0, 33, 71, 0.75), rgba(0, 33, 71, 0.75)),
+                url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1400') center/cover;
+    color: #fff;
+    padding: 70px 30px;
+    text-align: center;
+}
+
+.hero h2 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    font-size: 15px;
+    max-width: 600px;
+    margin: 0 auto 22px auto;
+    color: #e6e6e6;
+}
+
+/* ---------------- SECTIONS / CARDS ---------------- */
+
+.section {
+    background-color: #ffffff;
+    border: 1px solid #dde2e6;
+    margin-bottom: 25px;
+}
+
+.section-header {
+    background-color: #002147;
+    color: #fff;
+    padding: 12px 18px;
+}
+
+.section-header h2 {
+    font-size: 17px;
+}
+
+.section-body {
+    padding: 20px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+}
+
+.dest-card {
+    border: 1px solid #dde2e6;
+    background-color: #fff;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+
+.dest-card:hover {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.dest-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+}
+
+.dest-card-body {
+    padding: 14px;
+}
+
+.dest-card-body h3 {
+    color: #002147;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.dest-card-body p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* ---------------- BUTTONS ---------------- */
+
+.btn {
+    display: inline-block;
+    background-color: #002147;
+    color: #fff !important;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 2px;
+}
+
+.btn:hover {
+    background-color: #DC143C;
+}
+
+.btn-secondary {
+    background-color: #fff;
+    color: #002147 !important;
+    border: 1px solid #002147;
+}
+
+.btn-secondary:hover {
+    background-color: #f2f4f6;
+}
+
+.section-body input[type="text"],
+.section-body input[type="email"],
+.section-body input[type="password"],
+.section-body input[type="date"],
+.section-body input[type="number"],
+.section-body textarea,
+.section-body select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #c5c5c5;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+/* ---------------- NOTICE / GUIDELINE LIST ---------------- */
+
+.notice-list {
+    list-style: none;
+}
+
+.notice-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.notice-list li:last-child {
+    border-bottom: none;
+}
+
+.notice-date {
+    color: #888;
+    font-size: 12px;
+    margin-left: 8px;
+}
+
+/* ---------------- STATUS BADGES ---------------- */
+
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 2px;
+    text-transform: uppercase;
+}
+
+.badge-pending { background-color: #fff3cd; color: #7a5c00; }
+.badge-confirmed { background-color: #d4edda; color: #155724; }
+.badge-rejected { background-color: #f8d7da; color: #721c24; }
+
+/* ---------------- FOOTER ---------------- */
+
+.site-footer {
+    background-color: #002147;
+    color: #cbd5e0;
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+}
+
+
+
+/* ---------------- HERO EMBLEM + FLAG ---------------- */
+
+.hero-emblem-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.seal {
+    width: 90px;
+    height: 90px;
+}
+
+.flag-wrap {
+    width: 70px;
+    height: 95px;
+    transform-origin: left center;
+}
+
+.flag-wrap svg {
+    width: 100%;
+    height: 100%;
+    animation: flagWave 2.6s ease-in-out infinite;
+    transform-origin: left center;
+}
+
+@keyframes flagWave {
+    0%   { transform: skewY(0deg) scaleY(1); }
+    25%  { transform: skewY(2deg) scaleY(0.985); }
+    50%  { transform: skewY(0deg) scaleY(1); }
+    75%  { transform: skewY(-2deg) scaleY(0.985); }
+    100% { transform: skewY(0deg) scaleY(1); }
+}

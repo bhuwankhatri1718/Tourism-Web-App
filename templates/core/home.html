@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home | Nepal Tourism E-Governance Portal{% endblock %}
+
+{% block content %}
+
+<div class="hero">
+    <div class="hero-emblem-row">
+
+        <!-- Nepal flag (animated) -->
+        <div class="flag-wrap">
+            <svg viewBox="0 0 110 160" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0 H55 V30 L95 55 L55 80 V110 L95 135 L55 160 H0 Z"
+                      fill="#DC143C" stroke="#002147" stroke-width="4" stroke-linejoin="round"/>
+                <!-- moon in upper pennant -->
+                <circle cx="68" cy="42" r="10" fill="#ffffff"/>
+                <circle cx="72" cy="38" r="9" fill="#DC143C"/>
+                <!-- sun in lower pennant -->
+                <circle cx="68" cy="118" r="9" fill="#ffffff"/>
+            </svg>
+        </div>
+
+        <!-- Ministry-style seal -->
+        <svg class="seal" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="95" fill="#ffffff" stroke="#002147" stroke-width="4"/>
+            <circle cx="100" cy="100" r="82" fill="none" stroke="#DC143C" stroke-width="2"/>
+
+            <defs>
+                <path id="topArc" d="M34,76 A70,70 0 0,1 166,76" />
+                <path id="bottomArc" d="M34,124 A70,70 0 0,0 166,124" />
+            </defs>
+
+            <text font-size="10" fill="#002147" font-weight="700" letter-spacing="1">
+                <textPath href="#topArc" startOffset="50%" text-anchor="middle">
+                    GOVERNMENT OF NEPAL
+                </textPath>
+            </text>
+
+            <text font-size="9" fill="#002147" font-weight="700" letter-spacing="1">
+                <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">
+                    DEPT. OF TOURISM
+                </textPath>
+            </text>
+
+            <!-- mountain + sun icon -->
+            <circle cx="100" cy="88" r="8" fill="#DC143C"/>
+            <polygon points="60,125 85,95 100,110 115,90 140,125" fill="#002147"/>
+        </svg>
+
+    </div>
+
+    <h2>Welcome to the Nepal Tourism Portal</h2>
+    <p>An official e-governance initiative to help tourists explore, plan, and book visits to Nepal's most treasured destinations.</p>
+
+    <a href="{% url 'destination_list' %}" class="btn">Explore Destinations</a>
+    <a href="{% url 'guidelines' %}" class="btn btn-secondary" style="margin-left:10px;">Tourist Guidelines</a>
+</div>
+
+<div class="section">
+    <div class="section-header">
+        <h2>Featured Destinations</h2>
+    </div>
+    <div class="section-body">
+        <div class="card-grid">
+            {% for dest in destinations %}
+                <div class="dest-card">
+                    {% if dest.image %}
+                        <img src="{{ dest.image.url }}" alt="{{ dest.name }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=400" alt="{{ dest.name }}">
+                    {% endif %}
+                    <div class="dest-card-body">
+                        <h3>{{ dest.name }}</h3>
+                        <p>{{ dest.location }}</p>
+                        <a href="{% url 'destination_detail' dest.id %}" class="btn btn-secondary">View Details</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No destinations have been added yet. Please check back soon.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header">
+        <h2>Tourist Guidelines</h2>
+    </div>
+    <div class="section-body">
+        <ul class="notice-list">
+            {% for g in guidelines %}
+                <li><strong>{{ g.title }}</strong><br>{{ g.description|truncatewords:25 }}</li>
+            {% empty %}
+                <li>No guidelines published yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header">
+        <h2>Latest Notices</h2>
+    </div>
+    <div class="section-body">
+        <ul class="notice-list">
+            {% for n in notices %}
+                <li>
+                    <strong>{{ n.title }}</strong>
+                    <span class="notice-date">{{ n.published_date }}</span>
+                    <br>{{ n.description|truncatewords:20 }}
+                </li>
+            {% empty %}
+                <li>No notices published yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
