@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ destination.name }} | Nepal Tourism E-Governance Portal{% endblock %}
+
+{% block content %}
+
+<div class="breadcrumb">
+    <a href="{% url 'home' %}">Home</a> &gt;
+    <a href="{% url 'destination_list' %}">Destinations</a> &gt;
+    {{ destination.name }}
+</div>
+
+<div class="section">
+    {% if destination.image %}
+        <img src="{{ destination.image.url }}" alt="{{ destination.name }}" style="width:100%; max-height:350px; object-fit:cover;">
+    {% endif %}
+
+    <div class="section-header"><h2>{{ destination.name }}</h2></div>
+    <div class="section-body">
+        <p><strong>Location:</strong> {{ destination.location }}</p>
+        {% if destination.best_time_to_visit %}
+            <p><strong>Best Time to Visit:</strong> {{ destination.best_time_to_visit }}</p>
+        {% endif %}
+
+        <p style="margin-top:14px;">{{ destination.description }}</p>
+
+        {% if destination.entry_information %}
+            <h3 style="color:#002147; margin-top:18px;">Entry Information</h3>
+            <p>{{ destination.entry_information }}</p>
+        {% endif %}
+
+        {% if destination.latitude and destination.longitude %}
+            <h3 style="color:#002147; margin-top:18px;">Location Map</h3>
+            <div style="margin-top:10px; border:1px solid #dde2e6;">
+                <iframe
+                    width="100%"
+                    height="320"
+                    style="border:0;"
+                    loading="lazy"
+                    src="https://maps.google.com/maps?q={{ destination.latitude }},{{ destination.longitude }}&z=13&output=embed">
+                </iframe>
+            </div>
+        {% endif %}
+
+        <div style="margin-top:20px;">
+            <a href="{% url 'book_destination' destination.id %}" class="btn">Book a Visit</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

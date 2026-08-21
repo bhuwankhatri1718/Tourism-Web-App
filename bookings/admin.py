@@ -10,8 +10,6 @@ class BookingAdmin(admin.ModelAdmin):
     )
     search_fields = ('tourist__username', 'destination__name')
     list_filter = ('status', 'destination')
-    # This is how the admin "confirms" a booking - select rows, then
-    # use these actions instead of opening each one individually.
     actions = ['mark_confirmed', 'mark_rejected']
 
     def mark_confirmed(self, request, queryset):

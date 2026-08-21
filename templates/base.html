@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Nepal Tourism E-Governance Portal{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="gov-strip">
+        <span>Government of Nepal | Ministry of Culture, Tourism &amp; Civil Aviation</span>
+        <span>Helpline: 1144</span>
+    </div>
+
+    <header class="site-header">
+        <div class="brand">
+            <div class="brand-emblem">GoN</div>
+            <div class="brand-text">
+                <h1>Nepal Tourism Portal</h1>
+                <p>Official E-Governance Tourism Service</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'destination_list' %}">Destinations</a></li>
+            <li><a href="{% url 'guidelines' %}">Tourist Guidelines</a></li>
+            <li><a href="{% url 'notices' %}">Notices</a></li>
+
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'my_bookings' %}">My Bookings</a></li>
+                <li><a href="{% url 'logout' %}">Logout ({{ user.username }})</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="page-container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="site-footer">
+        &copy; {% now "Y" %} Government of Nepal - Department of Tourism. All Rights Reserved.
+    </footer>
+
+</body>
+</html>

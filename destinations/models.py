@@ -9,6 +9,9 @@ class Destination(models.Model):
     best_time_to_visit = models.CharField(max_length=200, blank=True)
     entry_information = models.TextField(blank=True)
 
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+
     image = models.ImageField(upload_to='destinations/', blank=True, null=True)
 
     is_active = models.BooleanField(default=True)

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}My Bookings | Nepal Tourism E-Governance Portal{% endblock %}
+
+{% block content %}
+
+<div class="breadcrumb"><a href="{% url 'home' %}">Home</a> &gt; My Bookings</div>
+
+<div class="section">
+    <div class="section-header"><h2>My Bookings</h2></div>
+    <div class="section-body">
+
+        {% for booking in bookings %}
+            <div style="border-bottom:1px solid #eee; padding:14px 0;">
+                <h3 style="color:#002147;">{{ booking.destination.name }}</h3>
+                <p>Visit Date: {{ booking.visit_date }} | Visitors: {{ booking.number_of_visitors }}</p>
+                {% if booking.status == 'PENDING' %}
+                    <span class="badge badge-pending">{{ booking.status }}</span>
+                {% elif booking.status == 'CONFIRMED' %}
+                    <span class="badge badge-confirmed">{{ booking.status }}</span>
+                {% else %}
+                    <span class="badge badge-rejected">{{ booking.status }}</span>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>You haven't made any bookings yet. <a href="{% url 'destination_list' %}">Browse destinations</a>.</p>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
