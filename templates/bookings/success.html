@@ -14,10 +14,19 @@
             <strong>{{ booking.visit_date }}</strong> for
             <strong>{{ booking.number_of_visitors }}</strong> visitor(s) has been submitted.
         </p>
-        <p style="margin-bottom:20px;">
-            Status: <span class="badge badge-pending">{{ booking.status }}</span><br>
-            An officer will review and confirm your booking shortly.
-        </p>
+       <p style="margin-bottom:20px;">
+    Status: <span class="badge badge-pending">{{ booking.status }}</span><br>
+    {% if booking.advance_amount > 0 %}
+        Advance Payment: <strong>NPR {{ booking.advance_amount }}</strong> -
+        {% if booking.payment_status == 'PAID' %}
+            <span class="badge badge-confirmed">PAID</span>
+        {% else %}
+            <span class="badge badge-rejected">UNPAID</span>
+        {% endif %}
+        <br>
+    {% endif %}
+    An officer will review and confirm your booking shortly.
+</p>
         <a href="{% url 'my_bookings' %}" class="btn">View My Bookings</a>
     </div>
 </div>

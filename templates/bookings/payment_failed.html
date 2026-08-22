@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment Failed | Nepal Tourism E-Governance Portal{% endblock %}
+
+{% block content %}
+
+<div class="breadcrumb"><a href="{% url 'home' %}">Home</a> &gt; Payment Failed</div>
+
+<div class="section" style="max-width:560px; margin:30px auto; text-align:center;">
+    <div class="section-header"><h2>Payment Not Completed</h2></div>
+    <div class="section-body">
+        <p style="margin-bottom:20px;">Your payment could not be completed. Your booking is saved but still requires advance payment.</p>
+        <a href="{% url 'my_bookings' %}" class="btn">Go to My Bookings</a>
+    </div>
+</div>
+
+{% endblock %}

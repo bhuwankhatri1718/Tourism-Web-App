@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Proceed to Payment | Nepal Tourism E-Governance Portal{% endblock %}
+
+{% block content %}
+
+<div class="breadcrumb"><a href="{% url 'home' %}">Home</a> &gt; Advance Payment</div>
+
+<div class="section" style="max-width:560px; margin:30px auto; text-align:center;">
+    <div class="section-header"><h2>Advance Payment Required</h2></div>
+    <div class="section-body">
+        <p style="margin-bottom:14px;">
+            To confirm your booking for <strong>{{ booking.destination.name }}</strong>
+            {% if booking.hotel %} at <strong>{{ booking.hotel.name }}</strong>{% endif %},
+            an advance payment of <strong>NPR {{ amount }}</strong> is required.
+        </p>
+        <p style="margin-bottom:20px; font-size:13px; color:#777;">
+            You will be redirected to eSewa (test/sandbox environment) to complete payment.
+        </p>
+
+        <form method="POST" action="{{ esewa_form_url }}">
+            <input type="hidden" name="amount" value="{{ amount }}">
+            <input type="hidden" name="tax_amount" value="0">
+            <input type="hidden" name="total_amount" value="{{ total_amount }}">
+            <input type="hidden" name="transaction_uuid" value="{{ transaction_uuid }}">
+            <input type="hidden" name="product_code" value="{{ product_code }}">
+            <input type="hidden" name="product_service_charge" value="0">
+            <input type="hidden" name="product_delivery_charge" value="0">
+            <input type="hidden" name="success_url" value="{{ success_url }}">
+            <input type="hidden" name="failure_url" value="{{ failure_url }}">
+            <input type="hidden" name="signed_field_names" value="total_amount,transaction_uuid,product_code">
+            <input type="hidden" name="signature" value="{{ signature }}">
+
+            <button type="submit" class="btn" style="border:none; cursor:pointer; width:100%;">
+                Pay NPR {{ amount }} with eSewa
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
