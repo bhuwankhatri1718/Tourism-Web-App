@@ -13,9 +13,9 @@ class BookingAdmin(admin.ModelAdmin):
     actions = ['mark_confirmed', 'mark_rejected']
 
     def mark_confirmed(self, request, queryset):
-        queryset.update(status='CONFIRMED')
+        queryset.filter(status='PENDING').update(status='CONFIRMED', is_seen_by_tourist=False)
     mark_confirmed.short_description = 'Mark selected bookings as Confirmed'
 
     def mark_rejected(self, request, queryset):
-        queryset.update(status='REJECTED')
+        queryset.filter(status='PENDING').update(status='REJECTED', is_seen_by_tourist=False)
     mark_rejected.short_description = 'Mark selected bookings as Rejected'

@@ -35,4 +35,19 @@ def booking_success_view(request, pk):
 @login_required
 def my_bookings_view(request):
     bookings = Booking.objects.filter(tourist=request.user).order_by('-created_at')
+
+    # Clear the notification badge now that they're viewing their bookings
+    Booking.objects.filter(tourist=request.user, is_seen_by_tourist=False).update(is_seen_by_tourist=True)
+
     return render(request, 'bookings/my_bookings.html', {'bookings': bookings})
+
+
+@login_required
+def cancel_booking_view(request, pk):
+    booking = get_object_or_404(Booking, pk=pk, tourist=request.user)
+
+    if booking.status == 'PENDING' and request.method == 'POST':
+        booking.status = 'REJECTED'
+        booking.save()
+
+    return redirect('my_bookings')

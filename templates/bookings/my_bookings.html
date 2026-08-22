@@ -15,12 +15,18 @@
                 <h3 style="color:#002147;">{{ booking.destination.name }}</h3>
                 <p>Visit Date: {{ booking.visit_date }} | Visitors: {{ booking.number_of_visitors }}</p>
                 {% if booking.status == 'PENDING' %}
-                    <span class="badge badge-pending">{{ booking.status }}</span>
-                {% elif booking.status == 'CONFIRMED' %}
-                    <span class="badge badge-confirmed">{{ booking.status }}</span>
-                {% else %}
-                    <span class="badge badge-rejected">{{ booking.status }}</span>
-                {% endif %}
+    <span class="badge badge-pending">{{ booking.status }}</span>
+{% elif booking.status == 'CONFIRMED' %}
+    <span class="badge badge-confirmed">{{ booking.status }}</span>
+{% else %}
+    <span class="badge badge-rejected">{{ booking.status }}</span>
+{% endif %}
+                <div style="margin-top:6px;">
+                    <a href="{% url 'booking_success' booking.id %}" class="btn" style="margin-right:6px;">View Details</a>
+                    {% if booking.status == 'PENDING' %}
+                        <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-cancel">Cancel Booking</a>
+                    {% endif %}
+                </div>
             </div>
         {% empty %}
             <p>You haven't made any bookings yet. <a href="{% url 'destination_list' %}">Browse destinations</a>.</p>

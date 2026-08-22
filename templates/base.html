@@ -32,7 +32,16 @@
             <li><a href="{% url 'notices' %}">Notices</a></li>
 
             {% if user.is_authenticated %}
-                <li><a href="{% url 'my_bookings' %}">My Bookings</a></li>
+                <li>
+    <a href="{% url 'my_bookings' %}" style="position:relative;">
+        My Bookings
+        {% if unread_booking_count > 0 %}
+            <span style="position:absolute; top:6px; right:2px; background:#DC143C; color:#fff; font-size:10px; font-weight:700; border-radius:50%; width:16px; height:16px; display:flex; align-items:center; justify-content:center;">
+                {{ unread_booking_count }}
+            </span>
+        {% endif %}
+    </a>
+</li>
                 <li>
                     <form method="POST" action="{% url 'logout' %}" style="margin:0;">
                         {% csrf_token %}
