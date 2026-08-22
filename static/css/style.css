@@ -116,14 +116,21 @@ a {
     font-weight: 600;
 }
 
-/* ---------------- HERO ---------------- */
+/* ---------------- HERO (full viewport height) ---------------- */
 
 .hero {
     background: linear-gradient(rgba(0, 33, 71, 0.75), rgba(0, 33, 71, 0.75)),
                 url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1400') center/cover;
     color: #fff;
-    padding: 70px 30px;
     text-align: center;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
 }
 
 .hero h2 {
@@ -136,6 +143,22 @@ a {
     max-width: 600px;
     margin: 0 auto 22px auto;
     color: #e6e6e6;
+}
+
+/* ---------------- HERO EMBLEM ---------------- */
+
+.hero-emblem-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.seal {
+    width: 90px;
+    height: 90px;
 }
 
 /* ---------------- SECTIONS / CARDS ---------------- */
@@ -226,6 +249,8 @@ a {
     background-color: #f2f4f6;
 }
 
+/* ---------------- FORM INPUTS ---------------- */
+
 .section-body input[type="text"],
 .section-body input[type="email"],
 .section-body input[type="password"],
@@ -288,52 +313,6 @@ a {
 }
 
 
-
-/* ---------------- HERO EMBLEM + FLAG ---------------- */
-
-.hero-emblem-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.seal {
-    width: 90px;
-    height: 90px;
-}
-
-.flag-wrap {
-    width: 70px;
-    height: 95px;
-    transform-origin: left center;
-}
-
-.flag-wrap svg {
-    width: 100%;
-    height: 100%;
-    animation: flagWave 2.6s ease-in-out infinite;
-    transform-origin: left center;
-}
-
-@keyframes flagWave {
-    0%   { transform: skewY(0deg) scaleY(1); }
-    25%  { transform: skewY(2deg) scaleY(0.985); }
-    50%  { transform: skewY(0deg) scaleY(1); }
-    75%  { transform: skewY(-2deg) scaleY(0.985); }
-    100% { transform: skewY(0deg) scaleY(1); }
-}
-
-
-
-.section-body input[type="text"],
-.section-body input[type="password"],
-.section-body input[type="email"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #c5c5c5;
-    font-family: inherit;
-    font-size: 14px;
+.main-nav li form button:hover {
+    background-color: #DC143C;
 }
