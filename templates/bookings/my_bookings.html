@@ -13,6 +13,7 @@
         {% for booking in bookings %}
             <div style="border-bottom:1px solid #eee; padding:14px 0;">
                 <h3 style="color:#002147;">{{ booking.destination.name }}</h3>
+<p style="font-size:12px; color:#888;">Ref: {{ booking.reference_number }}</p>
                 <p>Visit Date: {{ booking.visit_date }} | Visitors: {{ booking.number_of_visitors }}</p>
 {% if booking.hotel %}
     <p style="font-size:13px; color:#666;">

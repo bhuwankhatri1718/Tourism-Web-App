@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Grievance / Complaint | Nepal Tourism E-Governance Portal{% endblock %}
+
+{% block content %}
+
+<div class="breadcrumb"><a href="{% url 'home' %}">Home</a> &gt; Grievance / Complaint</div>
+
+<div class="section" style="max-width:600px; margin:30px auto;">
+    <div class="section-header"><h2>Submit a Grievance or Complaint</h2></div>
+    <div class="section-body">
+
+        {% if submitted %}
+            <p style="color:#155724; background:#d4edda; padding:12px; border-radius:2px; margin-bottom:16px;">
+                Your complaint has been submitted successfully. Our office will review it and respond via email.
+            </p>
+        {% endif %}
+
+        <p style="font-size:13px; color:#666; margin-bottom:16px;">
+            Use this form to report an issue with a booking, a destination, or any other service on this portal.
+            All submissions are reviewed by the Department of Tourism.
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div style="margin-bottom:14px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:600; color:#003366;">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <p style="font-size:12px; color:#b00020; margin-top:3px;">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn" style="border:none; cursor:pointer; width:100%; margin-top:8px;">
+                Submit Complaint
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

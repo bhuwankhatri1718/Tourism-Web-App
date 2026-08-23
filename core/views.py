@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from destinations.models import Destination
 from .models import Guideline, Notice
+from .forms import ComplaintForm
 
 
 def home_view(request):
@@ -24,3 +25,18 @@ def guidelines_view(request):
 def notices_view(request):
     notices = Notice.objects.filter(is_active=True).order_by('-published_date')
     return render(request, 'core/notices.html', {'notices': notices})
+
+
+def complaint_view(request):
+    submitted = False
+
+    if request.method == 'POST':
+        form = ComplaintForm(request.POST)
+        if form.is_valid():
+            form.save()
+            submitted = True
+            form = ComplaintForm()
+    else:
+        form = ComplaintForm()
+
+    return render(request, 'core/complaint.html', {'form': form, 'submitted': submitted})

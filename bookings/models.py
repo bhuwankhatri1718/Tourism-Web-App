@@ -40,6 +40,10 @@ class Booking(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def reference_number(self):
+        return f"NTP-{self.created_at.year}-{self.id:06d}"
+
     def save(self, *args, **kwargs):
         if self.pk:
             old = Booking.objects.filter(pk=self.pk).first()
