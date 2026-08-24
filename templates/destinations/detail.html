@@ -18,14 +18,25 @@
     {% endif %}
 
     {% with destination.gallery_images.all as gallery %}
-        {% if gallery %}
-            <div style="padding:10px 20px; background:#f2f4f6; border-bottom:1px solid #dde2e6;">
-                <button onclick="openGallery(0)" class="btn btn-secondary" style="border:none; cursor:pointer;">
-                    View More Pictures ({{ gallery|length|add:1 }})
-                </button>
-            </div>
-        {% endif %}
-    {% endwith %}
+    {% if gallery %}
+        <button onclick="openGallery(0)"
+            style="position:relative; margin-top:-52px; margin-left:20px; margin-bottom:12px;
+                   background:rgba(0,33,71,0.85); color:#fff; border:none; cursor:pointer;
+                   padding:10px 18px; font-size:13px; font-weight:600; border-radius:4px;
+                   display:inline-flex; align-items:center; gap:8px;
+                   box-shadow:0 2px 8px rgba(0,0,0,0.3); transition:background 0.2s;"
+            onmouseover="this.style.background='#DC143C'"
+            onmouseout="this.style.background='rgba(0,33,71,0.85)'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+            </svg>
+            View {{ gallery|length|add:1 }} Photos
+        </button>
+    {% endif %}
+{% endwith %}
 
     <div class="section-header"><h2>{{ destination.name }}</h2></div>
     <div class="section-body">
