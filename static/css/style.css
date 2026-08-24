@@ -36,7 +36,7 @@ a {
 .site-header {
     background-color: #ffffff;
     border-bottom: 4px solid #DC143C;
-    padding: 15px 30px;
+    padding: 10px 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -73,6 +73,21 @@ a {
     color: #555;
 }
 
+.header-logo {
+    width: 45px !important;
+    height: 45px !important;
+    object-fit: contain !important;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.header-flag {
+    width: 40px !important;
+    height: 26px !important;
+    object-fit: contain !important;
+    flex-shrink: 0;
+}
+
 /* ---------------- NAV ---------------- */
 
 .main-nav {
@@ -94,6 +109,10 @@ a {
 }
 
 .main-nav li a:hover {
+    background-color: #DC143C;
+}
+
+.main-nav li form button:hover {
     background-color: #DC143C;
 }
 
@@ -169,29 +188,10 @@ a {
     margin-bottom: 25px;
 }
 
-.site-header {
-    background-color: #ffffff;
-    border-bottom: 4px solid #DC143C;
-    padding: 10px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.header-logo {
-    width: 45px !important;
-    height: 45px !important;
-    object-fit: contain !important;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.header-flag {
-    width: 40px !important;
-    height: 26px !important;
-    object-fit: contain !important;
-    flex-shrink: 0;
+.section-header {
+    background-color: #002147;
+    color: #fff;
+    padding: 12px 18px;
 }
 
 .section-header h2 {
@@ -284,7 +284,7 @@ a {
     font-size: 14px;
 }
 
-/* ---------------- NOTICE / GUIDELINE LIST ---------------- */
+/* ---------------- NOTICE / GUIDELINE LIST (legacy, kept for any leftover usage) ---------------- */
 
 .notice-list {
     list-style: none;
@@ -304,6 +304,118 @@ a {
     color: #888;
     font-size: 12px;
     margin-left: 8px;
+}
+
+/* ---------------- GUIDELINES (numbered official style) ---------------- */
+
+.guideline-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.guideline-item:last-child {
+    border-bottom: none;
+}
+
+.guideline-number {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: #002147;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.guideline-content h3 {
+    color: #002147;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.guideline-content p {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* ---------------- NOTICES (official circular / notice-board style) ---------------- */
+
+.notice-item {
+    display: flex;
+    gap: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #fff;
+    border-left: 4px solid #DC143C;
+    border-top: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.notice-item:last-child {
+    margin-bottom: 0;
+}
+
+.notice-date-badge {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    background: #f2f4f6;
+    border: 1px solid #dde2e6;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.notice-date-badge .day {
+    font-size: 18px;
+    font-weight: 700;
+    color: #002147;
+    line-height: 1;
+}
+
+.notice-date-badge .month {
+    font-size: 10px;
+    font-weight: 600;
+    color: #DC143C;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notice-content h3 {
+    color: #002147;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.notice-content p {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.notice-tag {
+    display: inline-block;
+    background: #DC143C;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-bottom: 6px;
 }
 
 /* ---------------- STATUS BADGES ---------------- */
@@ -329,9 +441,4 @@ a {
     text-align: center;
     padding: 20px;
     font-size: 13px;
-}
-
-
-.main-nav li form button:hover {
-    background-color: #DC143C;
 }

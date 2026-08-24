@@ -9,17 +9,21 @@
 <div class="section">
     <div class="section-header"><h2>Public Notices</h2></div>
     <div class="section-body">
-        <ul class="notice-list">
-            {% for n in notices %}
-                <li>
-                    <strong>{{ n.title }}</strong>
-                    <span class="notice-date">{{ n.published_date }}</span>
-                    <br>{{ n.description }}
-                </li>
-            {% empty %}
-                <li>No notices have been published yet.</li>
-            {% endfor %}
-        </ul>
+        {% for n in notices %}
+            <div class="notice-item">
+                <div class="notice-date-badge">
+                    <span class="day">{{ n.published_date|date:"d" }}</span>
+                    <span class="month">{{ n.published_date|date:"M" }}</span>
+                </div>
+                <div class="notice-content">
+                    <span class="notice-tag">Official Notice</span>
+                    <h3>{{ n.title }}</h3>
+                    <p>{{ n.description }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <p>No notices have been published yet.</p>
+        {% endfor %}
     </div>
 </div>
 

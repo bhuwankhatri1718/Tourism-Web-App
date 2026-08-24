@@ -10,9 +10,12 @@
     <div class="section-header"><h2>Tourist Guidelines</h2></div>
     <div class="section-body">
         {% for g in guidelines %}
-            <div style="margin-bottom: 18px;">
-                <h3 style="color:#002147; margin-bottom:6px;">{{ g.title }}</h3>
-                <p>{{ g.description }}</p>
+            <div class="guideline-item">
+                <div class="guideline-number">{{ forloop.counter }}</div>
+                <div class="guideline-content">
+                    <h3>{{ g.title }}</h3>
+                    <p>{{ g.description }}</p>
+                </div>
             </div>
         {% empty %}
             <p>No guidelines have been published yet.</p>

@@ -75,13 +75,17 @@
         <h2>Tourist Guidelines</h2>
     </div>
     <div class="section-body">
-        <ul class="notice-list">
-            {% for g in guidelines %}
-                <li><strong>{{ g.title }}</strong><br>{{ g.description|truncatewords:25 }}</li>
-            {% empty %}
-                <li>No guidelines published yet.</li>
-            {% endfor %}
-        </ul>
+        {% for g in guidelines %}
+            <div class="guideline-item">
+                <div class="guideline-number">{{ forloop.counter }}</div>
+                <div class="guideline-content">
+                    <h3>{{ g.title }}</h3>
+                    <p>{{ g.description|truncatewords:25 }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <p>No guidelines published yet.</p>
+        {% endfor %}
     </div>
 </div>
 
@@ -90,17 +94,21 @@
         <h2>Latest Notices</h2>
     </div>
     <div class="section-body">
-        <ul class="notice-list">
-            {% for n in notices %}
-                <li>
-                    <strong>{{ n.title }}</strong>
-                    <span class="notice-date">{{ n.published_date }}</span>
-                    <br>{{ n.description|truncatewords:20 }}
-                </li>
-            {% empty %}
-                <li>No notices published yet.</li>
-            {% endfor %}
-        </ul>
+        {% for n in notices %}
+            <div class="notice-item">
+                <div class="notice-date-badge">
+                    <span class="day">{{ n.published_date|date:"d" }}</span>
+                    <span class="month">{{ n.published_date|date:"M" }}</span>
+                </div>
+                <div class="notice-content">
+                    <span class="notice-tag">Official Notice</span>
+                    <h3>{{ n.title }}</h3>
+                    <p>{{ n.description|truncatewords:20 }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <p>No notices published yet.</p>
+        {% endfor %}
     </div>
 </div>
 
