@@ -9,4 +9,5 @@ urlpatterns = [
     path('payment/initiate/<int:pk>/', views.payment_initiate_view, name='payment_initiate'),
     path('payment/success/', views.payment_success_view, name='payment_success'),
     path('payment/failure/', views.payment_failure_view, name='payment_failure'),
+    path('pdf/<int:pk>/', views.booking_pdf_view, name='booking_pdf'),
 ]

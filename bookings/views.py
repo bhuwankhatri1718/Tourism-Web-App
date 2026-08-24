@@ -9,6 +9,10 @@ from .models import Booking
 from .forms import BookingForm
 from .esewa import generate_signature, decode_response, ESEWA_MERCHANT_CODE, ESEWA_FORM_URL
 
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+from xhtml2pdf import pisa
+
 
 @login_required
 def book_destination_view(request, pk):
@@ -111,3 +115,20 @@ def payment_success_view(request):
 @login_required
 def payment_failure_view(request):
     return render(request, 'bookings/payment_failed.html')
+
+
+
+@login_required
+def booking_pdf_view(request, pk):
+    booking = get_object_or_404(Booking, pk=pk, tourist=request.user)
+
+    html = render_to_string('bookings/booking_pdf.html', {'booking': booking})
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="booking_{booking.reference_number}.pdf"'
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    if pisa_status.err:
+        return HttpResponse('Error generating PDF', status=500)
+
+    return response

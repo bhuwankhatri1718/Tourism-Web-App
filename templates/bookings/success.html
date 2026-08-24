@@ -34,6 +34,8 @@
         </p>
 
         <a href="{% url 'my_bookings' %}" class="btn">View My Bookings</a>
+
+        <a href="{% url 'booking_pdf' booking.id %}" class="btn btn-secondary" style="margin-left:10px;">Download PDF</a>
     </div>
 </div>
 
