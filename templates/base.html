@@ -33,7 +33,7 @@
             <li><a href="{% url 'guidelines' %}">Tourist Guidelines</a></li>
             <li><a href="{% url 'notices' %}">Notices</a></li>
             <li><a href="{% url 'grievance' %}">Grievance</a></li>
-
+            <li><a href="{% url 'stats' %}">Statistics</a></li>
             {% if user.is_authenticated %}
                 <li>
                     <a href="{% url 'my_bookings' %}" style="position:relative;">

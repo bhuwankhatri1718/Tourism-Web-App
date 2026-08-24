@@ -3,6 +3,10 @@ from destinations.models import Destination
 from .models import Guideline, Notice
 from .forms import ComplaintForm
 
+from django.contrib.auth.models import User
+from destinations.models import Destination
+from bookings.models import Booking
+
 
 def home_view(request):
     destinations = Destination.objects.filter(is_active=True)[:6]
@@ -40,3 +44,21 @@ def complaint_view(request):
         form = ComplaintForm()
 
     return render(request, 'core/complaint.html', {'form': form, 'submitted': submitted})
+
+
+
+def stats_view(request):
+    total_destinations = Destination.objects.filter(is_active=True).count()
+    total_tourists = User.objects.filter(is_staff=False).count()
+    total_bookings = Booking.objects.count()
+    confirmed_bookings = Booking.objects.filter(status='CONFIRMED').count()
+    pending_bookings = Booking.objects.filter(status='PENDING').count()
+
+    context = {
+        'total_destinations': total_destinations,
+        'total_tourists': total_tourists,
+        'total_bookings': total_bookings,
+        'confirmed_bookings': confirmed_bookings,
+        'pending_bookings': pending_bookings,
+    }
+    return render(request, 'core/stats.html', context)

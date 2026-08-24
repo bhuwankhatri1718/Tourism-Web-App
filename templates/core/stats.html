@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Public Statistics | Nepal Tourism E-Governance Portal{% endblock %}
+
+{% block content %}
+
+<div class="breadcrumb"><a href="{% url 'home' %}">Home</a> &gt; Public Statistics</div>
+
+<div class="section">
+    <div class="section-header"><h2>Public Transparency Statistics</h2></div>
+    <div class="section-body">
+        <p style="font-size:13px; color:#666; margin-bottom:20px;">
+            In the interest of public accountability, the Department of Tourism publishes the following
+            live statistics from the Nepal Tourism E-Governance Portal.
+        </p>
+
+        <div class="card-grid">
+            <div class="dest-card">
+                <div class="dest-card-body" style="text-align:center;">
+                    <p style="font-size:32px; font-weight:700; color:#002147; margin-bottom:4px;">{{ total_destinations }}</p>
+                    <p style="font-size:13px; color:#666;">Active Destinations Listed</p>
+                </div>
+            </div>
+
+            <div class="dest-card">
+                <div class="dest-card-body" style="text-align:center;">
+                    <p style="font-size:32px; font-weight:700; color:#002147; margin-bottom:4px;">{{ total_tourists }}</p>
+                    <p style="font-size:13px; color:#666;">Registered Tourists</p>
+                </div>
+            </div>
+
+            <div class="dest-card">
+                <div class="dest-card-body" style="text-align:center;">
+                    <p style="font-size:32px; font-weight:700; color:#002147; margin-bottom:4px;">{{ total_bookings }}</p>
+                    <p style="font-size:13px; color:#666;">Total Bookings Received</p>
+                </div>
+            </div>
+
+            <div class="dest-card">
+                <div class="dest-card-body" style="text-align:center;">
+                    <p style="font-size:32px; font-weight:700; color:#155724; margin-bottom:4px;">{{ confirmed_bookings }}</p>
+                    <p style="font-size:13px; color:#666;">Bookings Confirmed</p>
+                </div>
+            </div>
+
+            <div class="dest-card">
+                <div class="dest-card-body" style="text-align:center;">
+                    <p style="font-size:32px; font-weight:700; color:#7a5c00; margin-bottom:4px;">{{ pending_bookings }}</p>
+                    <p style="font-size:13px; color:#666;">Bookings Pending Review</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
