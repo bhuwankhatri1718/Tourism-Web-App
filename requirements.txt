@@ -2,3 +2,4 @@ Django
 djangorestframework
 djangorestframework-simplejwt
 PyJWT
+xhtml2pdf
