@@ -68,5 +68,109 @@
         &copy; {% now "Y" %} Government of Nepal - Department of Tourism. All Rights Reserved.
     </footer>
 
+    <!-- Chatbot Widget -->
+    <div id="chatbot-toggle" onclick="toggleChatbot()">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+    </div>
+
+    <div id="chatbot-window">
+        <div id="chatbot-header">
+            <div>
+                <h4>Nepal Tourism Assistant</h4>
+                <span>Ask about bookings, destinations, visas &amp; more</span>
+            </div>
+            <span id="chatbot-close" onclick="toggleChatbot()">&times;</span>
+        </div>
+
+        <div id="chatbot-messages">
+            <div class="chat-msg bot">
+                Namaste! I'm the Nepal Tourism Portal virtual assistant. How can I help you today?
+            </div>
+        </div>
+
+        <div id="chatbot-suggestions">
+            <span class="chat-suggestion" onclick="sendQuick('How do I book a visit?')">How to book</span>
+            <span class="chat-suggestion" onclick="sendQuick('Do I need a visa?')">Visa info</span>
+            <span class="chat-suggestion" onclick="sendQuick('How do I cancel a booking?')">Cancel booking</span>
+            <span class="chat-suggestion" onclick="sendQuick('How do I file a complaint?')">Complaint</span>
+        </div>
+
+        <div id="chatbot-input-row">
+            <input type="text" id="chatbot-input" placeholder="Type your question..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button id="chatbot-send" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleChatbot() {
+            const win = document.getElementById('chatbot-window');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+            if (win.style.display === 'flex') {
+                document.getElementById('chatbot-input').focus();
+            }
+        }
+
+        function sendQuick(text) {
+            document.getElementById('chatbot-input').value = text;
+            sendMessage();
+        }
+
+        const botReplies = [
+            { keywords: ['book', 'booking', 'reserve'], reply: 'To book a visit: go to <a href="/destinations/">Destinations</a>, open any location, and click "Book a Visit". You\'ll need to be logged in first.' },
+            { keywords: ['cancel'], reply: 'You can cancel any PENDING booking from the <a href="/bookings/my-bookings/">My Bookings</a> page using the "Cancel Booking" button.' },
+            { keywords: ['visa'], reply: 'Most foreign nationals (except Indian citizens) need a visa, available on arrival at Tribhuvan International Airport or land borders. See our <a href="/guidelines/">Tourist Guidelines</a> page for full details.' },
+            { keywords: ['complaint', 'grievance', 'issue', 'problem'], reply: 'You can file a complaint through our <a href="/grievance/">Grievance</a> page. Our office reviews all submissions.' },
+            { keywords: ['payment', 'pay', 'advance', 'esewa'], reply: 'If a hotel is selected during booking, a 10% advance payment is required via eSewa. You can pay anytime from your <a href="/bookings/my-bookings/">My Bookings</a> page.' },
+            { keywords: ['register', 'sign up', 'account'], reply: 'Click "Register" in the top navigation to create a tourist account with your name, email, and contact details.' },
+            { keywords: ['login', 'log in', 'sign in'], reply: 'Click "Login" in the top navigation and enter your username and password.' },
+            { keywords: ['confirm', 'status', 'pending'], reply: 'Bookings start as PENDING and are reviewed by our office. You\'ll see a notification badge on "My Bookings" once your status is updated.' },
+            { keywords: ['destination', 'places', 'visit', 'kathmandu', 'everest', 'chitwan', 'lumbini', 'annapurna', 'mustang'], reply: 'Browse all our destinations on the <a href="/destinations/">Destinations</a> page, including Kathmandu, Everest Base Camp, Chitwan, Lumbini, Annapurna Base Camp, and Mustang.' },
+            { keywords: ['hotel', 'stay', 'accommodation'], reply: 'Each destination page has a "Where to Stay" section listing available hotels near that location.' },
+            { keywords: ['helpline', 'contact', 'phone', 'call'], reply: 'You can reach the national tourism helpline at <strong>1144</strong>, shown at the top of every page.' },
+            { keywords: ['pdf', 'download', 'receipt', 'confirmation'], reply: 'Once your booking is submitted, you can download a PDF confirmation from the success page or your "My Bookings" list.' },
+            { keywords: ['guideline', 'rule', 'permit'], reply: 'Check our <a href="/guidelines/">Tourist Guidelines</a> page for visa, permit, and cultural etiquette information.' },
+            { keywords: ['notice', 'news', 'update'], reply: 'The latest official notices are published on our <a href="/notices/">Notices</a> page.' },
+            { keywords: ['hello', 'hi', 'namaste', 'hey'], reply: 'Namaste! How can I help you plan your visit to Nepal today?' },
+            { keywords: ['thank', 'thanks'], reply: 'You\'re most welcome! Let me know if there\'s anything else I can help with.' },
+        ];
+
+        function getBotReply(userText) {
+            const text = userText.toLowerCase();
+            for (const item of botReplies) {
+                if (item.keywords.some(k => text.includes(k))) {
+                    return item.reply;
+                }
+            }
+            return 'I\'m not sure about that yet. For detailed help, please use our <a href="/grievance/">Grievance form</a> or call the helpline at <strong>1144</strong>.';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatbot-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const messages = document.getElementById('chatbot-messages');
+
+            const userDiv = document.createElement('div');
+            userDiv.className = 'chat-msg user';
+            userDiv.textContent = text;
+            messages.appendChild(userDiv);
+
+            input.value = '';
+
+            setTimeout(() => {
+                const botDiv = document.createElement('div');
+                botDiv.className = 'chat-msg bot';
+                botDiv.innerHTML = getBotReply(text);
+                messages.appendChild(botDiv);
+                messages.scrollTop = messages.scrollHeight;
+            }, 400);
+
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
+
 </body>
 </html>
