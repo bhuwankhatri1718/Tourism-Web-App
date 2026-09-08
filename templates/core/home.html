@@ -7,34 +7,7 @@
 
 <div class="hero">
     <div class="hero-emblem-row">
-
-        <!-- Ministry-style seal -->
-        <svg class="seal" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="95" fill="#ffffff" stroke="#002147" stroke-width="4"/>
-            <circle cx="100" cy="100" r="82" fill="none" stroke="#DC143C" stroke-width="2"/>
-
-            <defs>
-                <path id="topArc" d="M34,76 A70,70 0 0,1 166,76" />
-                <path id="bottomArc" d="M34,124 A70,70 0 0,0 166,124" />
-            </defs>
-
-            <text font-size="10" fill="#002147" font-weight="700" letter-spacing="1">
-                <textPath href="#topArc" startOffset="50%" text-anchor="middle">
-                    GOVERNMENT OF NEPAL
-                </textPath>
-            </text>
-
-            <text font-size="9" fill="#002147" font-weight="700" letter-spacing="1">
-                <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">
-                    DEPT. OF TOURISM
-                </textPath>
-            </text>
-
-            <!-- mountain + sun icon -->
-            <circle cx="100" cy="88" r="8" fill="#DC143C"/>
-            <polygon points="60,125 85,95 100,110 115,90 140,125" fill="#002147"/>
-        </svg>
-
+        <img src="{% static 'images/logo.png' %}" alt="Government of Nepal Emblem" style="width:110px; height:110px; object-fit:contain;">
     </div>
 
     <h2>Welcome to the Nepal Tourism Portal</h2>
