@@ -6,16 +6,48 @@
 {% block content %}
 
 <div class="hero">
-    <div class="hero-emblem-row">
-        <img src="{% static 'images/logo.png' %}" alt="Government of Nepal Emblem" style="width:110px; height:110px; object-fit:contain;">
-    </div>
-
     <h2>Welcome to the Nepal Tourism Portal</h2>
     <p>An official e-governance initiative to help tourists explore, plan, and book visits to Nepal's most treasured destinations.</p>
 
     <a href="{% url 'destination_list' %}" class="btn">Explore Destinations</a>
     <a href="{% url 'guidelines' %}" class="btn btn-secondary" style="margin-left:10px;">Tourist Guidelines</a>
 </div>
+
+<div class="section">
+    <div class="section-header">
+        <h2>Quick Services</h2>
+    </div>
+    <div class="section-body">
+        <div class="card-grid">
+            <a href="{% url 'register' %}" class="dest-card quick-service-card">
+                <div class="dest-card-body" style="text-align:center;">
+                    <h3>Tourist Registration</h3>
+                    <p>Create your official tourist account</p>
+                </div>
+            </a>
+            <a href="{% url 'destination_list' %}" class="dest-card quick-service-card">
+                <div class="dest-card-body" style="text-align:center;">
+                    <h3>Book a Visit</h3>
+                    <p>Reserve entry to registered destinations</p>
+                </div>
+            </a>
+            <a href="{% url 'guidelines' %}" class="dest-card quick-service-card">
+                <div class="dest-card-body" style="text-align:center;">
+                    <h3>Travel Guidelines</h3>
+                    <p>Visa, permit &amp; entry requirements</p>
+                </div>
+            </a>
+            <a href="{% url 'grievance' %}" class="dest-card quick-service-card">
+                <div class="dest-card-body" style="text-align:center;">
+                    <h3>File a Grievance</h3>
+                    <p>Report an issue to the Department</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
 
 <div class="section">
     <div class="section-header">
@@ -84,5 +116,47 @@
         {% endfor %}
     </div>
 </div>
+
+<div class="section">
+    <div class="section-header">
+        <h2>Important Information</h2>
+    </div>
+    <div class="section-body">
+        <div class="card-grid">
+            <div class="info-block">
+                <h3>Emergency Numbers</h3>
+                <p>Tourist Helpline: <strong>1144</strong><br>Police: <strong>100</strong><br>Ambulance: <strong>102</strong></p>
+            </div>
+            <div class="info-block">
+                <h3>Immigration</h3>
+                <p>Visa-on-arrival available at Tribhuvan International Airport and major land border crossings.</p>
+            </div>
+            <div class="info-block">
+                <h3>Trekking Permits</h3>
+                <p>TIMS card and Conservation Area / National Park permits required for trekking regions.</p>
+            </div>
+            <div class="info-block">
+                <h3>Tourist Police</h3>
+                <p>Dedicated tourist police units operate in Kathmandu, Pokhara, and major tourist areas.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header">
+        <h2>Useful Government Links</h2>
+    </div>
+    <div class="section-body">
+        <ul class="gov-links-list">
+            <li><a href="https://tourism.gov.np" target="_blank" rel="noopener">Ministry of Culture, Tourism &amp; Civil Aviation</a></li>
+            <li><a href="https://immigration.gov.np" target="_blank" rel="noopener">Department of Immigration, Nepal</a></li>
+            <li><a href="https://dotm.gov.np" target="_blank" rel="noopener">Department of Transport Management</a></li>
+            <li><a href="https://nepal.gov.np" target="_blank" rel="noopener">Government of Nepal — National Portal</a></li>
+        </ul>
+    </div>
+</div>
+
+
 
 {% endblock %}

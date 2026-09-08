@@ -608,3 +608,116 @@ a {
 #chatbot-send:hover {
     background: #DC143C;
 }
+
+
+
+.account-dropdown {
+    position: relative;
+}
+
+.account-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #dde2e6;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    min-width: 160px;
+    z-index: 100;
+}
+
+.account-dropdown-menu a,
+.account-dropdown-logout {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    color: #002147 !important;
+    font-size: 13px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.account-dropdown-menu a:hover,
+.account-dropdown-logout:hover {
+    background: #f2f4f6;
+    color: #DC143C !important;
+}
+
+
+
+
+/* ---------------- QUICK SERVICES ---------------- */
+
+.quick-service-card {
+    text-decoration: none;
+    cursor: pointer;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.quick-service-card:hover {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    border-color: #002147;
+}
+
+.quick-service-card h3 {
+    color: #002147;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.quick-service-card p {
+    font-size: 12px;
+    color: #666;
+}
+
+/* ---------------- INFO BLOCKS ---------------- */
+
+.info-block {
+    border: 1px solid #dde2e6;
+    padding: 14px;
+    background: #f9fafb;
+}
+
+.info-block h3 {
+    color: #002147;
+    font-size: 14px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #DC143C;
+    padding-bottom: 6px;
+}
+
+.info-block p {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+}
+
+/* ---------------- GOV LINKS ---------------- */
+
+.gov-links-list {
+    list-style: none;
+}
+
+.gov-links-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.gov-links-list li:last-child {
+    border-bottom: none;
+}
+
+.gov-links-list a {
+    color: #002147;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.gov-links-list a:hover {
+    color: #DC143C;
+    text-decoration: underline;
+}
