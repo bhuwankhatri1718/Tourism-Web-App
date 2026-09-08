@@ -611,20 +611,22 @@ a {
 
 
 
-.account-dropdown {
-    position: relative;
+.main-nav li.account-dropdown {
+    position: relative !important;
 }
 
 .account-dropdown-menu {
     display: none;
-    position: absolute;
+    position: absolute !important;
     top: 100%;
     right: 0;
     background: #fff;
     border: 1px solid #dde2e6;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     min-width: 160px;
-    z-index: 100;
+    z-index: 1000;
+    margin: 0;
+    padding: 0;
 }
 
 .account-dropdown-menu a,

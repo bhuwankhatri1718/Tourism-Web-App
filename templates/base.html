@@ -45,16 +45,19 @@
             {% endif %}
         </a>
     </li>
-    <li class="account-dropdown">
-        <a href="#" onclick="toggleAccountMenu(event)">{{ user.username }} &#9662;</a>
-        <div id="accountMenu" class="account-dropdown-menu">
-            <a href="{% url 'my_bookings' %}">My Bookings</a>
-            <form method="POST" action="{% url 'logout' %}" style="margin:0;">
-                {% csrf_token %}
-                <button type="submit" class="account-dropdown-logout">Logout</button>
-            </form>
-        </div>
-    </li>
+    <li>
+    <span style="display:inline-block; padding:12px 8px 12px 20px; color:#fff; font-size:14px; font-weight:500;">
+        {{ user.username }}
+    </span>
+</li>
+<li>
+    <form method="POST" action="{% url 'logout' %}" style="margin:0; display:inline;">
+        {% csrf_token %}
+        <button type="submit" style="background:none; border:none; color:#fff; font-size:14px; font-weight:500; padding:12px 20px; cursor:pointer; font-family:inherit;">
+            Logout
+        </button>
+    </form>
+</li>
 {% else %}
                 <li><a href="{% url 'login' %}">Login</a></li>
                 <li><a href="{% url 'register' %}">Register</a></li>
@@ -175,20 +178,7 @@
     </script>
 
 
-    <script>
-    function toggleAccountMenu(e) {
-        e.preventDefault();
-        const menu = document.getElementById('accountMenu');
-        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-    }
-    document.addEventListener('click', function(e) {
-        const menu = document.getElementById('accountMenu');
-        const toggle = e.target.closest('.account-dropdown');
-        if (menu && menu.style.display === 'block' && !toggle) {
-            menu.style.display = 'none';
-        }
-    });
-</script>
+  
 
 </body>
 </html>
