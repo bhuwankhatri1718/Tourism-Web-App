@@ -1,0 +1,100 @@
+:root, html[data-theme="dark"], html[data-theme="light"] {
+    --primary: #002147;
+    --primary-fg: #fff;
+    --secondary: #DC143C;
+    --accent: #DC143C;
+
+    --body-fg: #222;
+    --body-bg: #f2f4f6;
+    --body-quiet-color: #666;
+    --body-loud-color: #002147;
+
+    --header-color: #fff;
+    --header-branding-color: #fff;
+    --header-bg: #002147;
+    --header-link-color: #fff;
+
+    --breadcrumbs-fg: #f2f4f6;
+    --breadcrumbs-link-fg: #fff;
+    --breadcrumbs-bg: #DC143C;
+
+    --link-fg: #002147;
+    --link-hover-color: #DC143C;
+    --link-selected-fg: #DC143C;
+
+    --hairline-color: #dde2e6;
+    --border-color: #c5c5c5;
+    --darkened-bg: #eef1f4;
+
+    --selected-bg: #fdecea;
+    --selected-row: #fdecea;
+
+    --button-bg: #002147;
+    --button-fg: #fff;
+    --button-hover-bg: #DC143C;
+    --default-button-bg: #002147;
+    --default-button-fg: #fff;
+    --default-button-hover-bg: #DC143C;
+    --close-button-bg: #767676;
+    --close-button-hover-bg: #333;
+
+    --object-tools-bg: #002147;
+    --object-tools-hover-bg: #DC143C;
+
+    color-scheme: light;
+}
+
+body, #content, .module {
+    background: #f2f4f6;
+    color: #222;
+}
+
+#header {
+    border-bottom: 4px solid #DC143C;
+}
+
+.module {
+    background: #ffffff;
+    border: 1px solid #dde2e6;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background: #002147 !important;
+    color: #fff !important;
+}
+
+table tr {
+    background: #ffffff !important;
+    color: #222 !important;
+}
+
+table tr:nth-child(even) {
+    background: #f7f9fa !important;
+}
+
+table th, table td {
+    color: #222 !important;
+    border-bottom: 1px solid #eee !important;
+}
+
+a:link, a:visited {
+    color: #002147;
+}
+
+a:hover {
+    color: #DC143C;
+}
+
+.dashboard #content-related {
+    background: #ffffff;
+    border: 1px solid #dde2e6;
+}
+
+.dashboard #content-related .module h2 {
+    background: #002147 !important;
+}
+
+.dashboard #content-related ul li {
+    color: #222 !important;
+    border-bottom: 1px solid #eee;
+}
