@@ -1,64 +1,481 @@
 {% load static %}
+{% get_media_prefix as MEDIA_URL %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{% block title %}Nepal Tourism E-Governance Portal{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3">
+
+    <style>
+        /* Navigation account controls */
+
+        .nav-bookings-link {
+            position: relative;
+        }
+
+        .nav-booking-count {
+            position: absolute;
+            top: 6px;
+            right: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 16px;
+            height: 16px;
+            padding: 0 3px;
+            border-radius: 50%;
+            background: #dc143c;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .nav-username {
+            display: inline-block;
+            padding: 12px 8px 12px 20px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-logout-form {
+            display: inline;
+            margin: 0;
+        }
+
+        .nav-logout-button {
+            padding: 12px 20px;
+            border: 0;
+            background: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* ==================================================
+           TOURISM FOOTER
+           ================================================== */
+
+        .tourism-footer,
+        .tourism-footer * {
+            box-sizing: border-box;
+        }
+
+        .tourism-footer {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            width: 100%;
+            margin-top: 64px;
+            padding: 64px 0 26px;
+            background: #285fb3;
+            color: #fff;
+            text-align: left;
+        }
+
+        .tourism-footer__background {
+            position: absolute;
+            z-index: 0;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(
+                    to bottom,
+                    #285fb3 10%,
+                    rgba(40, 95, 179, 0.98) 40%,
+                    rgba(40, 95, 179, 0.88) 100%
+                ),
+                url("{{ MEDIA_URL }}destinations/kathmandu.jpg");
+            background-position: center, center bottom;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .tourism-footer__inner {
+            position: relative;
+            z-index: 1;
+            width: min(1240px, calc(100% - 96px));
+            margin-inline: auto;
+        }
+
+        .tourism-footer a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .tourism-footer a:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 6px;
+            border-radius: 2px;
+        }
+
+        /* Brand */
+
+        .tourism-footer__brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 24px;
+            max-width: 100%;
+            margin-bottom: 48px;
+        }
+
+        .tourism-footer__brand img {
+            display: block;
+            flex-shrink: 0;
+            width: 130px;
+            height: 130px;
+            object-fit: contain;
+        }
+
+        .tourism-footer__brand h2 {
+            margin: 0 0 10px;
+            color: #fff;
+            font-size: clamp(22px, 2.2vw, 29px);
+            font-weight: 650;
+            line-height: 1.35;
+        }
+
+        .tourism-footer__brand p {
+            margin: 0;
+            color: #edf3ff;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Columns */
+
+        .tourism-footer__columns {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr 1fr;
+            gap: 64px;
+        }
+
+        .tourism-footer__columns > * {
+            min-width: 0;
+        }
+
+        .tourism-footer h3 {
+            margin: 0 0 26px;
+            color: #fff;
+            font-size: 21px;
+            font-weight: 650;
+            line-height: 1.4;
+        }
+
+        .tourism-footer__service + .tourism-footer__service {
+            margin-top: 22px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .tourism-footer__service h4 {
+            margin: 0 0 8px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 650;
+        }
+
+        .tourism-footer__service p,
+        .tourism-footer__description {
+            margin: 0 0 14px;
+            color: #edf3ff;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .tourism-footer__service > a {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .tourism-footer__service > a:hover,
+        .tourism-footer__back:hover,
+        .tourism-footer__contact a:hover {
+            text-decoration: underline;
+            text-underline-offset: 5px;
+        }
+
+        /* Link accents */
+
+        .tourism-footer__links {
+            display: grid;
+            gap: 18px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .tourism-footer__links li {
+            padding: 0;
+            margin: 0;
+        }
+
+        .tourism-footer__links a {
+            display: block;
+            padding-left: 13px;
+            border-left: 3px solid #aecfff;
+            color: #f5f8ff;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+            transition:
+                border-color 160ms ease,
+                transform 160ms ease;
+        }
+
+        .tourism-footer__links a:hover {
+            border-left-color: #fff;
+            transform: translateX(4px);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .tourism-footer__description {
+            margin-bottom: 23px;
+        }
+
+        /* Contact row */
+
+        .tourism-footer__contact {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 22px 32px;
+            margin-top: 48px;
+            padding-top: 26px;
+            border-top: 1px solid rgba(255, 255, 255, 0.22);
+        }
+
+        .tourism-footer__contact-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            color: #f5f8ff;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .tourism-footer__icon {
+            display: block;
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Copyright and page link */
+
+        .tourism-footer__bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 28px;
+            padding-top: 22px;
+            padding-right: 64px;
+            border-top: 1px solid rgba(255, 255, 255, 0.22);
+            color: #edf3ff;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .tourism-footer__bottom p {
+            margin: 0;
+        }
+
+        .tourism-footer__back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Tablet */
+
+        @media (max-width: 1000px) {
+            .tourism-footer__inner {
+                width: calc(100% - 64px);
+            }
+
+            .tourism-footer__columns {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 40px;
+            }
+
+            .tourism-footer__columns > :first-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+            .tourism-footer {
+                margin-top: 40px;
+                padding-top: 40px;
+            }
+
+            .tourism-footer__inner {
+                width: calc(100% - 40px);
+            }
+
+            .tourism-footer__brand {
+                align-items: flex-start;
+                gap: 16px;
+                margin-bottom: 36px;
+            }
+
+            .tourism-footer__brand img {
+                width: 76px;
+                height: 76px;
+            }
+
+            .tourism-footer__brand h2 {
+                font-size: 20px;
+            }
+
+            .tourism-footer__brand p {
+                font-size: 14px;
+            }
+
+            .tourism-footer__columns {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 34px;
+            }
+
+            .tourism-footer h3 {
+                margin-bottom: 20px;
+                font-size: 19px;
+            }
+
+            .tourism-footer__links {
+                gap: 16px;
+            }
+
+            .tourism-footer__contact {
+                align-items: flex-start;
+                flex-direction: column;
+                margin-top: 36px;
+            }
+
+            .tourism-footer__bottom {
+                align-items: flex-start;
+                flex-direction: column;
+                padding-right: 0;
+                padding-bottom: 60px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tourism-footer__links a {
+                transition: none;
+            }
+
+            .tourism-footer__links a:hover {
+                transform: none;
+            }
+        }
+    </style>
 </head>
-<body>
+
+<body id="page-top">
 
     <div class="gov-strip">
-        <span>Government of Nepal | Ministry of Culture, Tourism &amp; Civil Aviation</span>
+        <span>
+            Government of Nepal |
+            Ministry of Culture, Tourism &amp; Civil Aviation
+        </span>
         <span>Helpline: 1144</span>
     </div>
 
     <header class="site-header">
         <div class="brand">
-           <img src="{% static 'images/logo.png' %}" alt="Government of Nepal Emblem" class="header-logo" style="width:70px !important; height:70px !important; object-fit:contain;">
+            <img
+                src="{% static 'images/logo.png' %}"
+                alt="Government of Nepal Emblem"
+                class="header-logo"
+                style="width:70px !important; height:70px !important; object-fit:contain;"
+            >
+
             <div class="brand-text">
                 <h1>Nepal Tourism Portal</h1>
                 <p>Official E-Governance Tourism Service</p>
             </div>
         </div>
 
-        <img src="{% static 'images/nepal.gif' %}" alt="Flag of Nepal" class="header-flag" style="width:80px !important; height:80px !important; object-fit:contain;">
+        <img
+            src="{% static 'images/nepal.gif' %}"
+            alt="Flag of Nepal"
+            class="header-flag"
+            style="width:80px !important; height:80px !important; object-fit:contain;"
+        >
     </header>
 
-    <nav class="main-nav">
+    <nav class="main-nav" aria-label="Main navigation">
         <ul>
             <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'destination_list' %}">Destinations</a></li>
-            <li><a href="{% url 'guidelines' %}">Tourist Guidelines</a></li>
+
+            <li>
+                <a href="{% url 'destination_list' %}">Destinations</a>
+            </li>
+
+            <li>
+                <a href="{% url 'guidelines' %}">Tourist Guidelines</a>
+            </li>
+
             <li><a href="{% url 'notices' %}">Notices</a></li>
             <li><a href="{% url 'grievance' %}">Grievance</a></li>
             <li><a href="{% url 'stats' %}">Statistics</a></li>
+
             {% if user.is_authenticated %}
-    <li>
-        <a href="{% url 'my_bookings' %}" style="position:relative;">
-            My Bookings
-            {% if unread_booking_count > 0 %}
-                <span style="position:absolute; top:6px; right:2px; background:#DC143C; color:#fff; font-size:10px; font-weight:700; border-radius:50%; width:16px; height:16px; display:flex; align-items:center; justify-content:center;">
-                    {{ unread_booking_count }}
-                </span>
-            {% endif %}
-        </a>
-    </li>
-    <li>
-    <span style="display:inline-block; padding:12px 8px 12px 20px; color:#fff; font-size:14px; font-weight:500;">
-        {{ user.username }}
-    </span>
-</li>
-<li>
-    <form method="POST" action="{% url 'logout' %}" style="margin:0; display:inline;">
-        {% csrf_token %}
-        <button type="submit" style="background:none; border:none; color:#fff; font-size:14px; font-weight:500; padding:12px 20px; cursor:pointer; font-family:inherit;">
-            Logout
-        </button>
-    </form>
-</li>
-{% else %}
+                <li>
+                    <a
+                        href="{% url 'my_bookings' %}"
+                        class="nav-bookings-link"
+                    >
+                        My Bookings
+
+                        {% if unread_booking_count > 0 %}
+                            <span class="nav-booking-count">
+                                {{ unread_booking_count }}
+                            </span>
+                        {% endif %}
+                    </a>
+                </li>
+
+                <li>
+                    <span class="nav-username">
+                        {{ user.username }}
+                    </span>
+                </li>
+
+                <li>
+                    <form
+                        method="POST"
+                        action="{% url 'logout' %}"
+                        class="nav-logout-form"
+                    >
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="nav-logout-button"
+                        >
+                            Logout
+                        </button>
+                    </form>
+                </li>
+            {% else %}
                 <li><a href="{% url 'login' %}">Login</a></li>
                 <li><a href="{% url 'register' %}">Register</a></li>
             {% endif %}
@@ -69,13 +486,248 @@
         {% block content %}{% endblock %}
     </div>
 
-    <footer class="site-footer">
-        &copy; {% now "Y" %} Government of Nepal - Department of Tourism. All Rights Reserved.
+    <!-- Footer -->
+    <footer class="tourism-footer" aria-labelledby="footer-title">
+        <div
+            class="tourism-footer__background"
+            aria-hidden="true"
+        ></div>
+
+        <div class="tourism-footer__inner">
+
+            <a
+                class="tourism-footer__brand"
+                href="{% url 'home' %}"
+            >
+                <img
+                    src="{% static 'images/logo.png' %}"
+                    alt="Nepal emblem"
+                    width="130"
+                    height="130"
+                    loading="lazy"
+                >
+
+                <div>
+                    <h2 id="footer-title">
+                        Nepal Tourism E-Governance Portal
+                    </h2>
+
+                    <p>
+                        Tourism information and online visitor services
+                    </p>
+                </div>
+            </a>
+
+            <div class="tourism-footer__columns">
+
+                <section aria-labelledby="footer-services">
+                    <h3 id="footer-services">Tourist Services</h3>
+
+                    <div class="tourism-footer__service">
+                        <h4>Explore Nepal</h4>
+
+                        <p>
+                            Discover destinations, places to stay
+                            and information to help plan your visit.
+                        </p>
+
+                        <a href="{% url 'destination_list' %}">
+                            Browse destinations
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                    </div>
+
+                    <div class="tourism-footer__service">
+                        <h4>Manage Your Visit</h4>
+
+                        <p>
+                            View your bookings, payment information
+                            and the latest booking decisions.
+                        </p>
+
+                        <a href="{% url 'my_bookings' %}">
+                            My bookings
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                    </div>
+                </section>
+
+                <nav aria-labelledby="footer-links">
+                    <h3 id="footer-links">Useful Links</h3>
+
+                    <ul class="tourism-footer__links">
+                        <li>
+                            <a href="{% url 'home' %}">Home</a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'destination_list' %}">
+                                Destinations &amp; Hotels
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'guidelines' %}">
+                                Tourist Guidelines
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'notices' %}">
+                                Notices &amp; Updates
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'stats' %}">
+                                Tourism Statistics
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'grievance' %}">
+                                Grievance Submission
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <section aria-labelledby="footer-help">
+                    <h3 id="footer-help">Visitor Assistance</h3>
+
+                    <p class="tourism-footer__description">
+                        Have a question about bookings or portal services?
+                        Explore our guidelines or send us your concern.
+                    </p>
+
+                    <ul class="tourism-footer__links">
+                        <li>
+                            <a href="{% url 'grievance' %}">
+                                Submit a concern
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'guidelines' %}">
+                                Read tourist guidelines
+                            </a>
+                        </li>
+
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'my_bookings' %}">
+                                    Check booking status
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'register' %}">
+                                    Create a tourist account
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'login' %}">
+                                    Tourist login
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </section>
+            </div>
+
+            <div class="tourism-footer__contact">
+                <p class="tourism-footer__contact-item">
+                    <svg
+                        class="tourism-footer__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M3 12h18"></path>
+                        <path d="M12 3a17 17 0 0 1 0 18 17 17 0 0 1 0-18z"></path>
+                    </svg>
+
+                    Nepal Tourism Portal
+                </p>
+
+                <a
+                    href="{% url 'grievance' %}"
+                    class="tourism-footer__contact-item"
+                >
+                    <svg
+                        class="tourism-footer__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                        <path d="m3 6 9 7 9-7"></path>
+                    </svg>
+
+                    Online grievance &amp; assistance
+                </a>
+
+                <a
+                    href="tel:1144"
+                    class="tourism-footer__contact-item"
+                >
+                    <svg
+                        class="tourism-footer__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.79a2 2 0 0 1-.45 2.11L8.09 9.89a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.89.34 1.83.58 2.79.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+
+                    Helpline: 1144
+                </a>
+            </div>
+
+            <div class="tourism-footer__bottom">
+                <p>
+                    &copy; {% now "Y" %} Nepal Tourism Portal.
+                    Academic demonstration project.
+                </p>
+
+                <a href="#page-top" class="tourism-footer__back">
+                    Back to top
+                    <span aria-hidden="true">↑</span>
+                </a>
+            </div>
+
+        </div>
     </footer>
 
     <!-- Chatbot Widget -->
-    <div id="chatbot-toggle" onclick="toggleChatbot()" title="Tourist Help Desk">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+    <div
+        id="chatbot-toggle"
+        onclick="toggleChatbot()"
+        title="Tourist Help Desk"
+    >
+        <svg
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fff"
+            stroke-width="2"
+            aria-hidden="true"
+        >
             <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
         </svg>
     </div>
@@ -84,34 +736,74 @@
         <div id="chatbot-header">
             <div>
                 <h4>Tourist Help Desk</h4>
-<span>Official assistance — bookings, permits, grievances &amp; more</span>
+                <span>
+                    Official assistance — bookings, permits, grievances &amp; more
+                </span>
             </div>
-            <span id="chatbot-close" onclick="toggleChatbot()">&times;</span>
+
+            <span id="chatbot-close" onclick="toggleChatbot()">
+                &times;
+            </span>
         </div>
 
         <div id="chatbot-messages">
             <div class="chat-msg bot">
-                Namaste! I'm the Nepal Tourism Portal virtual assistant. How can I help you today?
+                Namaste! I'm the Nepal Tourism Portal virtual assistant.
+                How can I help you today?
             </div>
         </div>
 
         <div id="chatbot-suggestions">
-            <span class="chat-suggestion" onclick="sendQuick('How do I book a visit?')">How to book</span>
-            <span class="chat-suggestion" onclick="sendQuick('Do I need a visa?')">Visa info</span>
-            <span class="chat-suggestion" onclick="sendQuick('How do I cancel a booking?')">Cancel booking</span>
-            <span class="chat-suggestion" onclick="sendQuick('How do I file a complaint?')">Complaint</span>
+            <span
+                class="chat-suggestion"
+                onclick="sendQuick('How do I book a visit?')"
+            >
+                How to book
+            </span>
+
+            <span
+                class="chat-suggestion"
+                onclick="sendQuick('Do I need a visa?')"
+            >
+                Visa info
+            </span>
+
+            <span
+                class="chat-suggestion"
+                onclick="sendQuick('How do I cancel a booking?')"
+            >
+                Cancel booking
+            </span>
+
+            <span
+                class="chat-suggestion"
+                onclick="sendQuick('How do I file a complaint?')"
+            >
+                Complaint
+            </span>
         </div>
 
         <div id="chatbot-input-row">
-            <input type="text" id="chatbot-input" placeholder="Type your question..." onkeypress="if(event.key==='Enter') sendMessage()">
-            <button id="chatbot-send" onclick="sendMessage()">Send</button>
+            <input
+                type="text"
+                id="chatbot-input"
+                placeholder="Type your question..."
+                onkeypress="if(event.key==='Enter') sendMessage()"
+            >
+
+            <button id="chatbot-send" onclick="sendMessage()">
+                Send
+            </button>
         </div>
     </div>
 
     <script>
         function toggleChatbot() {
             const win = document.getElementById('chatbot-window');
-            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+
+            win.style.display =
+                win.style.display === 'flex' ? 'none' : 'flex';
+
             if (win.style.display === 'flex') {
                 document.getElementById('chatbot-input').focus();
             }
@@ -123,37 +815,91 @@
         }
 
         const botReplies = [
-            { keywords: ['book', 'booking', 'reserve'], reply: 'To book a visit: go to <a href="/destinations/">Destinations</a>, open any location, and click "Book a Visit". You\'ll need to be logged in first.' },
-            { keywords: ['cancel'], reply: 'You can cancel any PENDING booking from the <a href="/bookings/my-bookings/">My Bookings</a> page using the "Cancel Booking" button.' },
-            { keywords: ['visa'], reply: 'Most foreign nationals (except Indian citizens) need a visa, available on arrival at Tribhuvan International Airport or land borders. See our <a href="/guidelines/">Tourist Guidelines</a> page for full details.' },
-            { keywords: ['complaint', 'grievance', 'issue', 'problem'], reply: 'You can file a complaint through our <a href="/grievance/">Grievance</a> page. Our office reviews all submissions.' },
-            { keywords: ['payment', 'pay', 'advance', 'esewa'], reply: 'If a hotel is selected during booking, a 10% advance payment is required via eSewa. You can pay anytime from your <a href="/bookings/my-bookings/">My Bookings</a> page.' },
-            { keywords: ['register', 'sign up', 'account'], reply: 'Click "Register" in the top navigation to create a tourist account with your name, email, and contact details.' },
-            { keywords: ['login', 'log in', 'sign in'], reply: 'Click "Login" in the top navigation and enter your username and password.' },
-            { keywords: ['confirm', 'status', 'pending'], reply: 'Bookings start as PENDING and are reviewed by our office. You\'ll see a notification badge on "My Bookings" once your status is updated.' },
-            { keywords: ['destination', 'places', 'visit', 'kathmandu', 'everest', 'chitwan', 'lumbini', 'annapurna', 'mustang'], reply: 'Browse all our destinations on the <a href="/destinations/">Destinations</a> page, including Kathmandu, Everest Base Camp, Chitwan, Lumbini, Annapurna Base Camp, and Mustang.' },
-            { keywords: ['hotel', 'stay', 'accommodation'], reply: 'Each destination page has a "Where to Stay" section listing available hotels near that location.' },
-            { keywords: ['helpline', 'contact', 'phone', 'call'], reply: 'You can reach the national tourism helpline at <strong>1144</strong>, shown at the top of every page.' },
-            { keywords: ['pdf', 'download', 'receipt', 'confirmation'], reply: 'Once your booking is submitted, you can download a PDF confirmation from the success page or your "My Bookings" list.' },
-            { keywords: ['guideline', 'rule', 'permit'], reply: 'Check our <a href="/guidelines/">Tourist Guidelines</a> page for visa, permit, and cultural etiquette information.' },
-            { keywords: ['notice', 'news', 'update'], reply: 'The latest official notices are published on our <a href="/notices/">Notices</a> page.' },
-            { keywords: ['hello', 'hi', 'namaste', 'hey'], reply: 'Namaste! How can I help you plan your visit to Nepal today?' },
-            { keywords: ['thank', 'thanks'], reply: 'You\'re most welcome! Let me know if there\'s anything else I can help with.' },
+            {
+                keywords: ['book', 'booking', 'reserve'],
+                reply: 'To book a visit: go to <a href="/destinations/">Destinations</a>, open any location, and click "Book a Visit". You\'ll need to be logged in first.'
+            },
+            {
+                keywords: ['cancel'],
+                reply: 'You can cancel any PENDING booking from the <a href="/bookings/my-bookings/">My Bookings</a> page using the "Cancel Booking" button.'
+            },
+            {
+                keywords: ['visa'],
+                reply: 'Most foreign nationals (except Indian citizens) need a visa, available on arrival at Tribhuvan International Airport or land borders. See our <a href="/guidelines/">Tourist Guidelines</a> page for full details.'
+            },
+            {
+                keywords: ['complaint', 'grievance', 'issue', 'problem'],
+                reply: 'You can file a complaint through our <a href="/grievance/">Grievance</a> page. Our office reviews all submissions.'
+            },
+            {
+                keywords: ['payment', 'pay', 'advance', 'esewa'],
+                reply: 'If a hotel is selected during booking, a 10% advance payment is required via eSewa. You can pay anytime from your <a href="/bookings/my-bookings/">My Bookings</a> page.'
+            },
+            {
+                keywords: ['register', 'sign up', 'account'],
+                reply: 'Click "Register" in the top navigation to create a tourist account with your name, email, and contact details.'
+            },
+            {
+                keywords: ['login', 'log in', 'sign in'],
+                reply: 'Click "Login" in the top navigation and enter your username and password.'
+            },
+            {
+                keywords: ['confirm', 'status', 'pending'],
+                reply: 'Bookings start as PENDING and are reviewed by our office. You\'ll see a notification badge on "My Bookings" once your status is updated.'
+            },
+            {
+                keywords: [
+                    'destination', 'places', 'visit', 'kathmandu',
+                    'everest', 'chitwan', 'lumbini', 'annapurna', 'mustang'
+                ],
+                reply: 'Browse all our destinations on the <a href="/destinations/">Destinations</a> page, including Kathmandu, Everest Base Camp, Chitwan, Lumbini, Annapurna Base Camp, and Mustang.'
+            },
+            {
+                keywords: ['hotel', 'stay', 'accommodation'],
+                reply: 'Each destination page has a "Where to Stay" section listing available hotels near that location.'
+            },
+            {
+                keywords: ['helpline', 'contact', 'phone', 'call'],
+                reply: 'You can reach the national tourism helpline at <strong>1144</strong>, shown at the top of every page.'
+            },
+            {
+                keywords: ['pdf', 'download', 'receipt', 'confirmation'],
+                reply: 'Once your booking is submitted, you can download a PDF confirmation from the success page or your "My Bookings" list.'
+            },
+            {
+                keywords: ['guideline', 'rule', 'permit'],
+                reply: 'Check our <a href="/guidelines/">Tourist Guidelines</a> page for visa, permit, and cultural etiquette information.'
+            },
+            {
+                keywords: ['notice', 'news', 'update'],
+                reply: 'The latest official notices are published on our <a href="/notices/">Notices</a> page.'
+            },
+            {
+                keywords: ['hello', 'hi', 'namaste', 'hey'],
+                reply: 'Namaste! How can I help you plan your visit to Nepal today?'
+            },
+            {
+                keywords: ['thank', 'thanks'],
+                reply: 'You\'re most welcome! Let me know if there\'s anything else I can help with.'
+            }
         ];
 
         function getBotReply(userText) {
             const text = userText.toLowerCase();
+
             for (const item of botReplies) {
-                if (item.keywords.some(k => text.includes(k))) {
+                if (item.keywords.some(keyword => text.includes(keyword))) {
                     return item.reply;
                 }
             }
+
             return 'I\'m not sure about that yet. For detailed help, please use our <a href="/grievance/">Grievance form</a> or call the helpline at <strong>1144</strong>.';
         }
 
         function sendMessage() {
             const input = document.getElementById('chatbot-input');
             const text = input.value.trim();
+
             if (!text) return;
 
             const messages = document.getElementById('chatbot-messages');
@@ -170,15 +916,13 @@
                 botDiv.className = 'chat-msg bot';
                 botDiv.innerHTML = getBotReply(text);
                 messages.appendChild(botDiv);
+
                 messages.scrollTop = messages.scrollHeight;
             }, 400);
 
             messages.scrollTop = messages.scrollHeight;
         }
     </script>
-
-
-  
 
 </body>
 </html>
