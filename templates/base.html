@@ -8,815 +8,152 @@
 
     <title>{% block title %}Nepal Tourism E-Governance Portal{% endblock %}</title>
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=4">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3">
 
     <style>
-        :root {
-            --portal-blue: #245ba8;
-            --portal-navy: #12365d;
-            --portal-red: #bd2436;
-            --portal-text: #263749;
-            --portal-muted: #637386;
-            --portal-border: #dce3eb;
-            --portal-background: #f3f5f8;
+        /* Navigation account controls */
+
+        .nav-bookings-link {
+            position: relative;
         }
 
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            background: var(--portal-background);
-            color: var(--portal-text);
-            font-family: Arial, "Segoe UI", sans-serif;
-            line-height: 1.6;
-        }
-
-        img {
-            max-width: 100%;
-        }
-
-        button,
-        input {
-            font: inherit;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        a:focus-visible,
-        button:focus-visible,
-        input:focus-visible {
-            outline: 3px solid #db9f24;
-            outline-offset: 4px;
-        }
-
-        .portal-container {
-            width: min(1280px, calc(100% - 48px));
-            margin-inline: auto;
-        }
-
-        .portal-skip {
-            position: fixed;
-            top: 10px;
-            left: 16px;
-            z-index: 10000;
-            padding: 10px 18px;
-            transform: translateY(-160%);
-            background: #fff;
-            color: var(--portal-navy);
-            border: 2px solid var(--portal-blue);
-        }
-
-        .portal-skip:focus {
-            transform: translateY(0);
-        }
-
-        /* Utility bar */
-
-        .portal-utility {
-            background: #edf2f7;
-            border-bottom: 1px solid var(--portal-border);
-            color: #40536a;
-            font-size: 12px;
-        }
-
-        .portal-utility__inner {
+        .nav-booking-count {
+            position: absolute;
+            top: 6px;
+            right: 2px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 6px 20px;
-            min-height: 36px;
-            padding-block: 7px;
-        }
-
-        .portal-utility__links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-        }
-
-        .portal-utility a {
-            color: inherit;
-        }
-
-        .portal-utility a:hover {
-            text-decoration: underline;
-        }
-
-        /* Government-style masthead */
-
-        .portal-masthead {
-            background: #fff;
-        }
-
-        .portal-masthead__inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 32px;
-            padding-block: 24px;
-            min-height: 150px;
-        }
-
-        .portal-brand {
-            display: flex;
-            align-items: center;
-            gap: 22px;
-            min-width: 0;
-            color: inherit;
-        }
-
-        .portal-brand__logo {
-            flex-shrink: 0;
-            width: 106px;
-            height: 106px;
-            object-fit: contain;
-        }
-
-        .portal-brand__text {
-            min-width: 0;
-        }
-
-        .portal-brand__government {
-            margin: 0 0 2px;
-            color: var(--portal-red);
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .portal-brand__ministry {
-            margin: 0 0 6px;
-            color: #526174;
-            font-size: 13px;
-        }
-
-        .portal-brand h1 {
-            margin: 0;
-            color: var(--portal-blue);
-            font-size: clamp(23px, 2.5vw, 32px);
-            font-weight: 700;
-            line-height: 1.3;
-        }
-
-        .portal-brand__subtitle {
-            margin: 6px 0 0;
-            color: var(--portal-muted);
-            font-size: 13px;
-        }
-
-        .portal-masthead__tools {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 24px;
-            flex-shrink: 0;
-        }
-
-        .portal-search {
-            display: flex;
-            width: 252px;
-            height: 43px;
-            margin: 0;
-            border: 1px solid #d8e0e9;
-            background: #f8fafc;
-        }
-
-        .portal-search input {
-            min-width: 0;
-            flex: 1;
-            width: auto;
-            margin: 0;
-            padding: 10px 12px;
-            border: 0;
-            border-radius: 0;
-            background: transparent;
-            color: var(--portal-text);
-            font-size: 13px;
-        }
-
-        .portal-search button {
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-            width: 42px;
-            padding: 0;
-            border: 0;
-            background: transparent;
-            color: var(--portal-blue);
-            cursor: pointer;
-        }
-
-        .portal-search button:hover {
-            background: #e7eef8;
-        }
-
-        .portal-flag {
-            width: 60px;
-            height: 76px;
-            object-fit: contain;
-        }
-
-        /* Navigation */
-
-        .portal-nav {
-            background: var(--portal-blue);
-            border-bottom: 3px solid #194680;
-        }
-
-        .portal-nav__inner {
-            display: flex;
-            align-items: stretch;
-            justify-content: space-between;
-            gap: 8px 20px;
-            flex-wrap: wrap;
-        }
-
-        .portal-nav__links,
-        .portal-nav__account {
-            display: flex;
-            align-items: stretch;
-            flex-wrap: wrap;
-            gap: 0;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .portal-nav a,
-        .portal-nav__logout,
-        .portal-nav__username {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            min-height: 52px;
-            padding: 12px 15px;
-            color: #fff;
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 1.4;
-        }
-
-        .portal-nav a:hover,
-        .portal-nav__logout:hover {
-            background: #194c94;
-        }
-
-        .portal-nav a[aria-current="page"] {
-            background: #173f78;
-            box-shadow: inset 0 -3px 0 #fff;
-        }
-
-        .portal-nav__username {
-            max-width: 170px;
-            overflow-wrap: anywhere;
-            color: #dce9ff;
-            font-weight: 400;
-        }
-
-        .portal-nav__account form {
-            height: 100%;
-            margin: 0;
-        }
-
-        .portal-nav__logout {
-            height: 100%;
-            border: 0;
-            border-radius: 0;
-            background: transparent;
-            cursor: pointer;
-        }
-
-        .portal-count {
-            display: inline-grid;
-            place-items: center;
-            min-width: 19px;
-            height: 19px;
-            padding: 0 4px;
-            border-radius: 20px;
-            background: #bd2436;
+            justify-content: center;
+            min-width: 16px;
+            height: 16px;
+            padding: 0 3px;
+            border-radius: 50%;
+            background: #dc143c;
             color: #fff;
             font-size: 10px;
-        }
-
-        /* Shared content */
-
-        .page-container {
-            width: min(1280px, calc(100% - 48px));
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 26px 0 48px;
-            min-width: 0;
-        }
-
-        /* Override the previous viewport-width hero */
-
-        .page-container .hero {
-            width: 100%;
-            min-height: 360px;
-            margin-left: 0;
-        }
-
-        .portal-home {
-            min-width: 0;
-        }
-
-        .portal-home a {
-            color: var(--portal-blue);
-        }
-
-        .portal-home h2,
-        .portal-home h3 {
-            line-height: 1.4;
-        }
-
-        /* Notice strip */
-
-        .portal-announcement {
-            display: flex;
-            align-items: stretch;
-            margin-bottom: 22px;
-            border: 1px solid var(--portal-border);
-            background: #fff;
-        }
-
-        .portal-announcement__label {
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
-            padding: 10px 18px;
-            background: var(--portal-red);
-            color: #fff;
-            font-size: 13px;
             font-weight: 700;
         }
 
-        .portal-announcement__text {
-            min-width: 0;
-            flex: 1;
-            padding: 10px 16px;
-            font-size: 14px;
-            overflow-wrap: anywhere;
-        }
-
-        .portal-announcement__date {
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
-            padding: 10px 16px;
-            color: var(--portal-muted);
-            font-size: 12px;
-        }
-
-        /* Banner and notice board */
-
-        .portal-home__top {
-            display: grid;
-            grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
-            gap: 24px;
-            margin-bottom: 28px;
-        }
-
-        .portal-banner {
-            display: flex;
-            align-items: flex-end;
-            position: relative;
-            min-width: 0;
-            min-height: 390px;
-            padding: 34px;
-            background:
-                linear-gradient(
-                    0deg,
-                    rgba(8, 30, 56, 0.92),
-                    rgba(8, 30, 56, 0.1)
-                ),
-                url("{{ MEDIA_URL }}destinations/everest.jpg")
-                center / cover no-repeat;
-            background-color: var(--portal-navy);
+        .nav-username {
+            display: inline-block;
+            padding: 12px 8px 12px 20px;
             color: #fff;
-        }
-
-        .portal-banner__content {
-            max-width: 560px;
-        }
-
-        .portal-banner__eyebrow {
-            margin: 0 0 10px;
-            font-size: 13px;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            color: #d9e8f9;
-        }
-
-        .portal-banner h2 {
-            margin: 0 0 12px;
-            color: #fff;
-            font-size: clamp(26px, 3vw, 38px);
-            font-weight: 700;
-        }
-
-        .portal-banner__description {
-            margin: 0 0 22px;
-            color: #edf3fa;
-            font-size: 15px;
-            line-height: 1.8;
-        }
-
-        .portal-banner__actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .portal-home .portal-button {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 42px;
-            padding: 10px 17px;
-            border: 1px solid var(--portal-blue);
-            background: var(--portal-blue);
-            color: #fff;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .portal-home .portal-button:hover {
-            background: #184882;
-        }
-
-        .portal-home .portal-button--white {
-            border-color: #fff;
-            background: #fff;
-            color: var(--portal-navy);
-        }
-
-        .portal-home .portal-button--white:hover {
-            background: #e8eef7;
-        }
-
-        .portal-home .portal-button--outline {
-            border-color: rgba(255, 255, 255, 0.7);
-            background: transparent;
-            color: #fff;
-        }
-
-        .portal-home .portal-button--outline:hover {
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        /* Content sections */
-
-        .portal-panel {
-            min-width: 0;
-            border: 1px solid var(--portal-border);
-            background: #fff;
-        }
-
-        .portal-panel__heading {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 15px 19px;
-            border-bottom: 1px solid var(--portal-border);
-            border-left: 4px solid var(--portal-blue);
-        }
-
-        .portal-panel__heading h2 {
-            margin: 0;
-            color: var(--portal-navy);
-            font-size: 19px;
-        }
-
-        .portal-panel__heading > a {
-            flex-shrink: 0;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .portal-panel__heading > a:hover {
-            text-decoration: underline;
-        }
-
-        .portal-notices {
-            padding: 0 19px;
-        }
-
-        .portal-notice {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            padding: 18px 0;
-        }
-
-        .portal-notice + .portal-notice {
-            border-top: 1px solid #e8edf2;
-        }
-
-        .portal-notice__date {
-            flex-shrink: 0;
-            width: 48px;
-            padding: 5px 3px;
-            border: 1px solid #dbe5f2;
-            background: #f1f5fc;
-            color: var(--portal-blue);
-            text-align: center;
-        }
-
-        .portal-notice__date strong {
-            display: block;
-            font-size: 21px;
-            line-height: 1.2;
-        }
-
-        .portal-notice__date span {
-            font-size: 11px;
-            text-transform: uppercase;
-        }
-
-        .portal-notice h3 {
-            margin: 0 0 5px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 500;
         }
 
-        .portal-notice h3 a:hover {
-            text-decoration: underline;
-        }
-
-        .portal-notice p {
+        .nav-logout-form {
+            display: inline;
             margin: 0;
-            color: var(--portal-muted);
-            font-size: 12px;
-            line-height: 1.7;
         }
 
-        .portal-empty {
-            padding: 20px;
-            margin: 0;
-            color: var(--portal-muted);
+        .nav-logout-button {
+            padding: 12px 20px;
+            border: 0;
+            background: none;
+            color: #fff;
+            font-family: inherit;
             font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
         }
 
-        /* Online services */
+        /* ==================================================
+           TOURISM FOOTER
+           ================================================== */
 
-        .portal-services {
-            margin-bottom: 28px;
+        .tourism-footer,
+        .tourism-footer * {
+            box-sizing: border-box;
         }
-
-        .portal-services__grid {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-        }
-
-        .portal-service {
-            display: block;
-            min-width: 0;
-            padding: 24px 21px;
-            border-right: 1px solid var(--portal-border);
-        }
-
-        .portal-service:last-child {
-            border-right: 0;
-        }
-
-        .portal-service:hover {
-            background: #f5f8fc;
-        }
-
-        .portal-service__number {
-            display: block;
-            margin-bottom: 12px;
-            color: var(--portal-red);
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .portal-service h3 {
-            margin: 0 0 7px;
-            color: var(--portal-navy);
-            font-size: 16px;
-        }
-
-        .portal-service p {
-            margin: 0;
-            color: var(--portal-muted);
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .portal-service__action {
-            display: block;
-            margin-top: 14px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        /* Featured destinations */
-
-        .portal-destinations {
-            margin-bottom: 28px;
-        }
-
-        .portal-destinations__grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 22px;
-            padding: 22px;
-        }
-
-        .portal-destination {
-            min-width: 0;
-            border: 1px solid var(--portal-border);
-            background: #fff;
-        }
-
-        .portal-destination__image {
-            display: block;
-            width: 100%;
-            height: 185px;
-            object-fit: cover;
-        }
-
-        .portal-destination__placeholder {
-            display: grid;
-            place-items: center;
-            height: 185px;
-            background: #e9eff7;
-            color: var(--portal-muted);
-            font-size: 14px;
-        }
-
-        .portal-destination__body {
-            padding: 17px;
-        }
-
-        .portal-destination h3 {
-            margin: 0 0 5px;
-            font-size: 17px;
-            color: var(--portal-navy);
-        }
-
-        .portal-destination p {
-            margin: 0 0 14px;
-            color: var(--portal-muted);
-            font-size: 13px;
-        }
-
-        .portal-destination__link {
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .portal-destination__link:hover {
-            text-decoration: underline;
-        }
-
-        /* Guidelines and information */
-
-        .portal-home__bottom {
-            display: grid;
-            grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-            gap: 24px;
-        }
-
-        .portal-guidelines {
-            padding: 0 20px;
-        }
-
-        .portal-guideline {
-            padding: 18px 0;
-        }
-
-        .portal-guideline + .portal-guideline {
-            border-top: 1px solid #e8edf2;
-        }
-
-        .portal-guideline h3 {
-            margin: 0 0 7px;
-            color: var(--portal-navy);
-            font-size: 15px;
-        }
-
-        .portal-guideline p {
-            margin: 0;
-            color: var(--portal-muted);
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .portal-information {
-            padding: 20px;
-        }
-
-        .portal-information h3 {
-            margin: 0 0 8px;
-            color: var(--portal-navy);
-            font-size: 15px;
-        }
-
-        .portal-information p {
-            margin: 0 0 18px;
-            color: var(--portal-muted);
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .portal-information__links {
-            display: grid;
-            gap: 0;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .portal-information__links a {
-            display: block;
-            padding: 11px 0;
-            border-top: 1px solid #e8edf2;
-            font-size: 13px;
-        }
-
-        .portal-information__links a:hover {
-            text-decoration: underline;
-        }
-
-        /* Footer */
 
         .tourism-footer {
             position: relative;
             isolation: isolate;
             overflow: hidden;
-            padding: 54px 0 24px;
+            width: 100%;
+            margin-top: 64px;
+            padding: 64px 0 26px;
             background: #285fb3;
             color: #fff;
             text-align: left;
         }
 
-        .tourism-footer::before {
-            content: "";
+        .tourism-footer__background {
             position: absolute;
+            z-index: 0;
             inset: 0;
-            z-index: -1;
             pointer-events: none;
-            background:
+            background-image:
                 linear-gradient(
                     to bottom,
-                    #285fb3 15%,
-                    rgba(40, 95, 179, 0.96) 55%,
-                    rgba(40, 95, 179, 0.87)
+                    #285fb3 10%,
+                    rgba(40, 95, 179, 0.98) 40%,
+                    rgba(40, 95, 179, 0.88) 100%
                 ),
-                url("{{ MEDIA_URL }}destinations/kathmandu.jpg")
-                center bottom / cover no-repeat;
+                url("{{ MEDIA_URL }}destinations/kathmandu.jpg");
+            background-position: center, center bottom;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .tourism-footer__inner {
+            position: relative;
+            z-index: 1;
+            width: min(1240px, calc(100% - 96px));
+            margin-inline: auto;
         }
 
         .tourism-footer a {
             color: inherit;
+            text-decoration: none;
         }
 
-        .tourism-footer a:hover {
-            text-decoration: underline;
-            text-underline-offset: 4px;
+        .tourism-footer a:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 6px;
+            border-radius: 2px;
         }
+
+        /* Brand */
 
         .tourism-footer__brand {
             display: inline-flex;
             align-items: center;
-            gap: 23px;
-            margin-bottom: 38px;
+            gap: 24px;
+            max-width: 100%;
+            margin-bottom: 48px;
         }
 
         .tourism-footer__brand img {
+            display: block;
             flex-shrink: 0;
-            width: 110px;
-            height: 110px;
+            width: 130px;
+            height: 130px;
             object-fit: contain;
         }
 
         .tourism-footer__brand h2 {
-            margin: 0 0 7px;
+            margin: 0 0 10px;
             color: #fff;
-            font-size: 25px;
-            line-height: 1.4;
+            font-size: clamp(22px, 2.2vw, 29px);
+            font-weight: 650;
+            line-height: 1.35;
         }
 
         .tourism-footer__brand p {
             margin: 0;
-            color: #e5eeff;
-            font-size: 14px;
+            color: #edf3ff;
+            font-size: 16px;
+            line-height: 1.6;
         }
+
+        /* Columns */
 
         .tourism-footer__columns {
             display: grid;
             grid-template-columns: 1.15fr 1fr 1fr;
-            gap: 56px;
+            gap: 64px;
         }
 
         .tourism-footer__columns > * {
@@ -824,42 +161,62 @@
         }
 
         .tourism-footer h3 {
-            margin: 0 0 20px;
+            margin: 0 0 26px;
             color: #fff;
-            font-size: 19px;
+            font-size: 21px;
+            font-weight: 650;
+            line-height: 1.4;
         }
 
         .tourism-footer__service + .tourism-footer__service {
-            margin-top: 18px;
-            padding-top: 18px;
-            border-top: 1px solid rgba(255, 255, 255, 0.23);
+            margin-top: 22px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
         }
 
-        .tourism-footer h4 {
-            margin: 0 0 7px;
+        .tourism-footer__service h4 {
+            margin: 0 0 8px;
             color: #fff;
-            font-size: 15px;
+            font-size: 16px;
+            font-weight: 650;
         }
 
         .tourism-footer__service p,
         .tourism-footer__description {
-            margin: 0 0 13px;
+            margin: 0 0 14px;
             color: #edf3ff;
-            font-size: 14px;
+            font-size: 15px;
             line-height: 1.8;
         }
 
         .tourism-footer__service > a {
-            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
             font-weight: 600;
         }
 
+        .tourism-footer__service > a:hover,
+        .tourism-footer__back:hover,
+        .tourism-footer__contact a:hover {
+            text-decoration: underline;
+            text-underline-offset: 5px;
+        }
+
+        /* Link accents */
+
         .tourism-footer__links {
             display: grid;
-            gap: 16px;
+            gap: 18px;
             padding: 0;
             margin: 0;
             list-style: none;
+        }
+
+        .tourism-footer__links li {
+            padding: 0;
+            margin: 0;
         }
 
         .tourism-footer__links a {
@@ -867,141 +224,92 @@
             padding-left: 13px;
             border-left: 3px solid #aecfff;
             color: #f5f8ff;
-            font-size: 14px;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+            transition:
+                border-color 160ms ease,
+                transform 160ms ease;
+        }
+
+        .tourism-footer__links a:hover {
+            border-left-color: #fff;
+            transform: translateX(4px);
+            text-decoration: underline;
+            text-underline-offset: 4px;
         }
 
         .tourism-footer__description {
-            margin-bottom: 20px;
+            margin-bottom: 23px;
         }
+
+        /* Contact row */
+
+        .tourism-footer__contact {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 22px 32px;
+            margin-top: 48px;
+            padding-top: 26px;
+            border-top: 1px solid rgba(255, 255, 255, 0.22);
+        }
+
+        .tourism-footer__contact-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            color: #f5f8ff;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .tourism-footer__icon {
+            display: block;
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Copyright and page link */
 
         .tourism-footer__bottom {
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 16px;
-            margin-top: 42px;
-            padding: 22px 65px 0 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            gap: 18px;
+            margin-top: 28px;
+            padding-top: 22px;
+            padding-right: 64px;
+            border-top: 1px solid rgba(255, 255, 255, 0.22);
             color: #edf3ff;
-            font-size: 12px;
+            font-size: 13px;
+            line-height: 1.6;
         }
 
         .tourism-footer__bottom p {
             margin: 0;
         }
 
-        /* Accessible chatbot controls */
-
-        #chatbot-toggle {
-            border: 0;
+        .tourism-footer__back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        #chatbot-close {
-            border: 0;
-            padding: 0 5px;
-            background: transparent;
-            color: inherit;
-            font-size: 25px;
-            cursor: pointer;
-        }
+        /* Tablet */
 
-        button.chat-suggestion {
-            font-family: inherit;
-            cursor: pointer;
-        }
-
-        #chatbot-window {
-            max-width: calc(100vw - 32px);
-            max-height: calc(100dvh - 110px);
-        }
-
-        #chatbot-messages,
-        #chatbot-header > div {
-            min-width: 0;
-        }
-
-        .chat-msg {
-            overflow-wrap: anywhere;
-        }
-
-        /* Responsive layouts */
-
-        @media (max-width: 1100px) {
-            .portal-masthead__inner {
-                gap: 20px;
-            }
-
-            .portal-masthead__tools {
-                gap: 16px;
-            }
-
-            .portal-search {
-                width: 210px;
-            }
-
-            .portal-flag {
-                width: 44px;
-            }
-
-            .portal-nav__inner {
-                gap: 0;
-            }
-
-            .portal-nav a,
-            .portal-nav__logout,
-            .portal-nav__username {
-                padding-inline: 12px;
-                font-size: 13px;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .portal-masthead__inner {
-                flex-wrap: wrap;
-            }
-
-            .portal-masthead__tools {
-                justify-content: space-between;
-                width: 100%;
-            }
-
-            .portal-search {
-                width: min(340px, calc(100% - 70px));
-            }
-
-            .portal-flag {
-                height: 55px;
-            }
-
-            .portal-home__top,
-            .portal-home__bottom {
-                grid-template-columns: minmax(0, 1fr);
-            }
-
-            .portal-banner {
-                min-height: 340px;
-            }
-
-            .portal-services__grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .portal-service:nth-child(2) {
-                border-right: 0;
-            }
-
-            .portal-service:nth-child(-n+2) {
-                border-bottom: 1px solid var(--portal-border);
-            }
-
-            .portal-destinations__grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+        @media (max-width: 1000px) {
+            .tourism-footer__inner {
+                width: calc(100% - 64px);
             }
 
             .tourism-footer__columns {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 32px;
+                gap: 40px;
             }
 
             .tourism-footer__columns > :first-child {
@@ -1009,141 +317,22 @@
             }
         }
 
-        @media (max-width: 560px) {
-            .portal-container,
-            .page-container {
-                width: calc(100% - 28px);
-            }
+        /* Mobile */
 
-            .portal-utility {
-                font-size: 11px;
-            }
-
-            .portal-utility__inner {
-                justify-content: center;
-                text-align: center;
-            }
-
-            .portal-brand {
-                gap: 13px;
-            }
-
-            .portal-brand__logo {
-                width: 72px;
-                height: 82px;
-            }
-
-            .portal-brand__government {
-                font-size: 13px;
-            }
-
-            .portal-brand__ministry {
-                font-size: 11px;
-            }
-
-            .portal-brand h1 {
-                font-size: 22px;
-            }
-
-            .portal-brand__subtitle {
-                font-size: 11px;
-            }
-
-            .portal-masthead__inner {
-                padding-block: 18px;
-            }
-
-            .portal-nav__links,
-            .portal-nav__account {
-                width: 100%;
-            }
-
-            .portal-nav__account {
-                border-top: 1px solid rgba(255, 255, 255, 0.18);
-            }
-
-            .portal-nav a,
-            .portal-nav__logout,
-            .portal-nav__username {
-                min-height: 44px;
-                padding: 10px;
-                font-size: 12px;
-            }
-
-            .portal-nav__username {
-                max-width: 135px;
-            }
-
-            .page-container {
-                padding-top: 18px;
-                padding-bottom: 32px;
-            }
-
-            .portal-announcement {
-                flex-wrap: wrap;
-            }
-
-            .portal-announcement__label {
-                padding-inline: 12px;
-            }
-
-            .portal-announcement__text {
-                font-size: 12px;
-            }
-
-            .portal-announcement__date {
-                width: 100%;
-                padding: 5px 12px;
-                border-top: 1px solid var(--portal-border);
-            }
-
-            .portal-banner {
-                min-height: 325px;
-                padding: 23px;
-            }
-
-            .portal-banner h2 {
-                font-size: 28px;
-            }
-
-            .portal-banner__description {
-                font-size: 13px;
-            }
-
-            .portal-services__grid,
-            .portal-destinations__grid {
-                grid-template-columns: minmax(0, 1fr);
-            }
-
-            .portal-service {
-                border-right: 0;
-                border-bottom: 1px solid var(--portal-border);
-            }
-
-            .portal-service:last-child {
-                border-bottom: 0;
-            }
-
-            .portal-destinations__grid {
-                padding: 15px;
-                gap: 16px;
-            }
-
-            .portal-panel__heading {
-                padding: 13px 14px;
-            }
-
-            .portal-panel__heading h2 {
-                font-size: 17px;
-            }
-
+        @media (max-width: 600px) {
             .tourism-footer {
-                padding-top: 36px;
+                margin-top: 40px;
+                padding-top: 40px;
+            }
+
+            .tourism-footer__inner {
+                width: calc(100% - 40px);
             }
 
             .tourism-footer__brand {
                 align-items: flex-start;
-                gap: 14px;
+                gap: 16px;
+                margin-bottom: 36px;
             }
 
             .tourism-footer__brand img {
@@ -1152,249 +341,169 @@
             }
 
             .tourism-footer__brand h2 {
-                font-size: 19px;
+                font-size: 20px;
             }
 
             .tourism-footer__brand p {
-                font-size: 12px;
+                font-size: 14px;
             }
 
             .tourism-footer__columns {
                 grid-template-columns: minmax(0, 1fr);
+                gap: 34px;
+            }
+
+            .tourism-footer h3 {
+                margin-bottom: 20px;
+                font-size: 19px;
+            }
+
+            .tourism-footer__links {
+                gap: 16px;
+            }
+
+            .tourism-footer__contact {
+                align-items: flex-start;
+                flex-direction: column;
+                margin-top: 36px;
             }
 
             .tourism-footer__bottom {
                 align-items: flex-start;
                 flex-direction: column;
                 padding-right: 0;
-                padding-bottom: 65px;
+                padding-bottom: 60px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tourism-footer__links a {
+                transition: none;
+            }
+
+            .tourism-footer__links a:hover {
+                transform: none;
             }
         }
     </style>
-
-    {% block extra_css %}{% endblock %}
 </head>
 
 <body id="page-top">
-    <a class="portal-skip" href="#main-content">
-        Skip to main content
-    </a>
 
-    <!-- Utility bar -->
-    <div class="portal-utility">
-        <div class="portal-container portal-utility__inner">
-            <span>Nepal Tourism E-Governance Portal</span>
-
-            <div class="portal-utility__links">
-                <a href="{% url 'guidelines' %}">Visitor information</a>
-                <a href="{% url 'grievance' %}">Grievance</a>
-                <span>Helpline: 1144</span>
-            </div>
-        </div>
+    <div class="gov-strip">
+        <span>
+            Government of Nepal |
+            Ministry of Culture, Tourism &amp; Civil Aviation
+        </span>
+        <span>Helpline: 1144</span>
     </div>
 
-    <!-- Masthead -->
-    <header class="portal-masthead">
-        <div class="portal-container portal-masthead__inner">
-            <a href="{% url 'home' %}" class="portal-brand">
-                <img
-                    src="{% static 'images/logo.png' %}"
-                    alt="Nepal emblem"
-                    class="portal-brand__logo"
-                    width="106"
-                    height="106"
-                >
+    <header class="site-header">
+        <div class="brand">
+            <img
+                src="{% static 'images/logo.png' %}"
+                alt="Government of Nepal Emblem"
+                class="header-logo"
+                style="width:70px !important; height:70px !important; object-fit:contain;"
+            >
 
-                <div class="portal-brand__text">
-                    <p class="portal-brand__government">
-                        Government of Nepal
-                    </p>
-
-                    <p class="portal-brand__ministry">
-                        Ministry of Culture, Tourism &amp; Civil Aviation
-                    </p>
-
-                    <h1>Nepal Tourism Portal</h1>
-
-                    <p class="portal-brand__subtitle">
-                        Tourism information and online visitor services
-                    </p>
-                </div>
-            </a>
-
-            <div class="portal-masthead__tools">
-                <form
-                    class="portal-search"
-                    action="{% url 'destination_list' %}"
-                    method="get"
-                    role="search"
-                    aria-label="Search destinations"
-                >
-                    <input
-                        type="search"
-                        name="q"
-                        placeholder="Search destinations..."
-                        aria-label="Destination name or location"
-                    >
-
-                    <button type="submit" aria-label="Search">
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            aria-hidden="true"
-                        >
-                            <circle cx="10.5" cy="10.5" r="6.5"></circle>
-                            <path d="m16 16 5 5"></path>
-                        </svg>
-                    </button>
-                </form>
-
-                <img
-                    src="{% static 'images/nepal.gif' %}"
-                    alt="Flag of Nepal"
-                    class="portal-flag"
-                    width="60"
-                    height="76"
-                >
+            <div class="brand-text">
+                <h1>Nepal Tourism Portal</h1>
+                <p>Official E-Governance Tourism Service</p>
             </div>
         </div>
+
+        <img
+            src="{% static 'images/nepal.gif' %}"
+            alt="Flag of Nepal"
+            class="header-flag"
+            style="width:80px !important; height:80px !important; object-fit:contain;"
+        >
     </header>
 
-    <!-- Main navigation -->
-    {% with current=request.resolver_match.url_name %}
-    <nav class="portal-nav" aria-label="Main navigation">
-        <div class="portal-container portal-nav__inner">
-            <ul class="portal-nav__links">
+    <nav class="main-nav" aria-label="Main navigation">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+
+            <li>
+                <a href="{% url 'destination_list' %}">Destinations</a>
+            </li>
+
+            <li>
+                <a href="{% url 'guidelines' %}">Tourist Guidelines</a>
+            </li>
+
+            <li><a href="{% url 'notices' %}">Notices</a></li>
+            <li><a href="{% url 'grievance' %}">Grievance</a></li>
+            <li><a href="{% url 'stats' %}">Statistics</a></li>
+
+            {% if user.is_authenticated %}
                 <li>
                     <a
-                        href="{% url 'home' %}"
-                        {% if current == 'home' %}aria-current="page"{% endif %}
+                        href="{% url 'my_bookings' %}"
+                        class="nav-bookings-link"
                     >
-                        Home
+                        My Bookings
+
+                        {% if unread_booking_count > 0 %}
+                            <span class="nav-booking-count">
+                                {{ unread_booking_count }}
+                            </span>
+                        {% endif %}
                     </a>
                 </li>
 
                 <li>
-                    <a
-                        href="{% url 'destination_list' %}"
-                        {% if current == 'destination_list' %}aria-current="page"{% endif %}
-                    >
-                        Destinations
-                    </a>
+                    <span class="nav-username">
+                        {{ user.username }}
+                    </span>
                 </li>
 
                 <li>
-                    <a
-                        href="{% url 'guidelines' %}"
-                        {% if current == 'guidelines' %}aria-current="page"{% endif %}
+                    <form
+                        method="POST"
+                        action="{% url 'logout' %}"
+                        class="nav-logout-form"
                     >
-                        Tourist Guidelines
-                    </a>
-                </li>
+                        {% csrf_token %}
 
-                <li>
-                    <a
-                        href="{% url 'notices' %}"
-                        {% if current == 'notices' %}aria-current="page"{% endif %}
-                    >
-                        Notices
-                    </a>
-                </li>
-
-                <li>
-                    <a
-                        href="{% url 'grievance' %}"
-                        {% if current == 'grievance' %}aria-current="page"{% endif %}
-                    >
-                        Grievance
-                    </a>
-                </li>
-
-                <li>
-                    <a
-                        href="{% url 'stats' %}"
-                        {% if current == 'stats' %}aria-current="page"{% endif %}
-                    >
-                        Statistics
-                    </a>
-                </li>
-            </ul>
-
-            <ul class="portal-nav__account">
-                {% if user.is_authenticated %}
-                    <li>
-                        <a
-                            href="{% url 'my_bookings' %}"
-                            {% if current == 'my_bookings' %}aria-current="page"{% endif %}
+                        <button
+                            type="submit"
+                            class="nav-logout-button"
                         >
-                            My Bookings
-
-                            {% if unread_booking_count > 0 %}
-                                <span class="portal-count">
-                                    {{ unread_booking_count }}
-                                </span>
-                            {% endif %}
-                        </a>
-                    </li>
-
-                    <li>
-                        <span class="portal-nav__username">
-                            {{ user.username }}
-                        </span>
-                    </li>
-
-                    <li>
-                        <form method="post" action="{% url 'logout' %}">
-                            {% csrf_token %}
-                            <button
-                                type="submit"
-                                class="portal-nav__logout"
-                            >
-                                Logout
-                            </button>
-                        </form>
-                    </li>
-                {% else %}
-                    <li>
-                        <a
-                            href="{% url 'login' %}"
-                            {% if current == 'login' %}aria-current="page"{% endif %}
-                        >
-                            Login
-                        </a>
-                    </li>
-
-                    <li>
-                        <a
-                            href="{% url 'register' %}"
-                            {% if current == 'register' %}aria-current="page"{% endif %}
-                        >
-                            Register
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
+                            Logout
+                        </button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+        </ul>
     </nav>
-    {% endwith %}
 
-    <main class="page-container" id="main-content" tabindex="-1">
+    <div class="page-container">
         {% block content %}{% endblock %}
-    </main>
+    </div>
 
     <!-- Footer -->
     <footer class="tourism-footer" aria-labelledby="footer-title">
-        <div class="portal-container">
-            <a href="{% url 'home' %}" class="tourism-footer__brand">
+        <div
+            class="tourism-footer__background"
+            aria-hidden="true"
+        ></div>
+
+        <div class="tourism-footer__inner">
+
+            <a
+                class="tourism-footer__brand"
+                href="{% url 'home' %}"
+            >
                 <img
                     src="{% static 'images/logo.png' %}"
                     alt="Nepal emblem"
-                    width="110"
-                    height="110"
+                    width="130"
+                    height="130"
                     loading="lazy"
                 >
 
@@ -1402,33 +511,43 @@
                     <h2 id="footer-title">
                         Nepal Tourism E-Governance Portal
                     </h2>
-                    <p>Tourism information and online visitor services</p>
+
+                    <p>
+                        Tourism information and online visitor services
+                    </p>
                 </div>
             </a>
 
             <div class="tourism-footer__columns">
+
                 <section aria-labelledby="footer-services">
                     <h3 id="footer-services">Tourist Services</h3>
 
                     <div class="tourism-footer__service">
                         <h4>Explore Nepal</h4>
+
                         <p>
-                            Discover destinations, places to stay and
-                            information to help plan your visit.
+                            Discover destinations, places to stay
+                            and information to help plan your visit.
                         </p>
+
                         <a href="{% url 'destination_list' %}">
-                            Browse destinations ↗
+                            Browse destinations
+                            <span aria-hidden="true">↗</span>
                         </a>
                     </div>
 
                     <div class="tourism-footer__service">
                         <h4>Manage Your Visit</h4>
+
                         <p>
                             View your bookings, payment information
-                            and booking decisions.
+                            and the latest booking decisions.
                         </p>
+
                         <a href="{% url 'my_bookings' %}">
-                            My bookings ↗
+                            My bookings
+                            <span aria-hidden="true">↗</span>
                         </a>
                     </div>
                 </section>
@@ -1440,63 +559,143 @@
                         <li>
                             <a href="{% url 'home' %}">Home</a>
                         </li>
+
                         <li>
                             <a href="{% url 'destination_list' %}">
                                 Destinations &amp; Hotels
                             </a>
                         </li>
+
                         <li>
                             <a href="{% url 'guidelines' %}">
                                 Tourist Guidelines
                             </a>
                         </li>
+
                         <li>
                             <a href="{% url 'notices' %}">
                                 Notices &amp; Updates
                             </a>
                         </li>
+
                         <li>
                             <a href="{% url 'stats' %}">
                                 Tourism Statistics
                             </a>
                         </li>
+
+                        <li>
+                            <a href="{% url 'grievance' %}">
+                                Grievance Submission
+                            </a>
+                        </li>
                     </ul>
                 </nav>
 
-                <section aria-labelledby="footer-assistance">
-                    <h3 id="footer-assistance">Visitor Assistance</h3>
+                <section aria-labelledby="footer-help">
+                    <h3 id="footer-help">Visitor Assistance</h3>
 
                     <p class="tourism-footer__description">
-                        Find information about portal services or submit
-                        a concern through the grievance form.
+                        Have a question about bookings or portal services?
+                        Explore our guidelines or send us your concern.
                     </p>
 
                     <ul class="tourism-footer__links">
                         <li>
                             <a href="{% url 'grievance' %}">
-                                Submit a grievance
+                                Submit a concern
                             </a>
                         </li>
 
                         <li>
-                            <a href="{% url 'my_bookings' %}">
-                                Check booking status
+                            <a href="{% url 'guidelines' %}">
+                                Read tourist guidelines
                             </a>
                         </li>
 
-                        {% if not user.is_authenticated %}
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'my_bookings' %}">
+                                    Check booking status
+                                </a>
+                            </li>
+                        {% else %}
                             <li>
                                 <a href="{% url 'register' %}">
                                     Create a tourist account
                                 </a>
                             </li>
-                        {% endif %}
 
-                        <li>
-                            <a href="tel:1144">Helpline: 1144</a>
-                        </li>
+                            <li>
+                                <a href="{% url 'login' %}">
+                                    Tourist login
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </section>
+            </div>
+
+            <div class="tourism-footer__contact">
+                <p class="tourism-footer__contact-item">
+                    <svg
+                        class="tourism-footer__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M3 12h18"></path>
+                        <path d="M12 3a17 17 0 0 1 0 18 17 17 0 0 1 0-18z"></path>
+                    </svg>
+
+                    Nepal Tourism Portal
+                </p>
+
+                <a
+                    href="{% url 'grievance' %}"
+                    class="tourism-footer__contact-item"
+                >
+                    <svg
+                        class="tourism-footer__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                        <path d="m3 6 9 7 9-7"></path>
+                    </svg>
+
+                    Online grievance &amp; assistance
+                </a>
+
+                <a
+                    href="tel:1144"
+                    class="tourism-footer__contact-item"
+                >
+                    <svg
+                        class="tourism-footer__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.79a2 2 0 0 1-.45 2.11L8.09 9.89a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.89.34 1.83.58 2.79.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+
+                    Helpline: 1144
+                </a>
             </div>
 
             <div class="tourism-footer__bottom">
@@ -1505,20 +704,20 @@
                     Academic demonstration project.
                 </p>
 
-                <a href="#page-top">Back to top ↑</a>
+                <a href="#page-top" class="tourism-footer__back">
+                    Back to top
+                    <span aria-hidden="true">↑</span>
+                </a>
             </div>
+
         </div>
     </footer>
 
-    <!-- Chatbot -->
-    <button
-        type="button"
+    <!-- Chatbot Widget -->
+    <div
         id="chatbot-toggle"
         onclick="toggleChatbot()"
         title="Tourist Help Desk"
-        aria-label="Open tourist help desk"
-        aria-controls="chatbot-window"
-        aria-expanded="false"
     >
         <svg
             width="26"
@@ -1531,36 +730,23 @@
         >
             <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
         </svg>
-    </button>
+    </div>
 
-    <div
-        id="chatbot-window"
-        role="region"
-        aria-labelledby="chatbot-title"
-        style="display:none;"
-    >
+    <div id="chatbot-window">
         <div id="chatbot-header">
             <div>
-                <h4 id="chatbot-title">Tourist Help Desk</h4>
-                <span>Bookings, guidelines and portal assistance</span>
+                <h4>Tourist Help Desk</h4>
+                <span>
+                    Official assistance — bookings, permits, grievances &amp; more
+                </span>
             </div>
 
-            <button
-                type="button"
-                id="chatbot-close"
-                onclick="toggleChatbot()"
-                aria-label="Close tourist help desk"
-            >
+            <span id="chatbot-close" onclick="toggleChatbot()">
                 &times;
-            </button>
+            </span>
         </div>
 
-        <div
-            id="chatbot-messages"
-            role="log"
-            aria-live="polite"
-            aria-relevant="additions"
-        >
+        <div id="chatbot-messages">
             <div class="chat-msg bot">
                 Namaste! I'm the Nepal Tourism Portal virtual assistant.
                 How can I help you today?
@@ -1568,37 +754,33 @@
         </div>
 
         <div id="chatbot-suggestions">
-            <button
-                type="button"
+            <span
                 class="chat-suggestion"
                 onclick="sendQuick('How do I book a visit?')"
             >
                 How to book
-            </button>
+            </span>
 
-            <button
-                type="button"
+            <span
                 class="chat-suggestion"
                 onclick="sendQuick('Do I need a visa?')"
             >
                 Visa info
-            </button>
+            </span>
 
-            <button
-                type="button"
+            <span
                 class="chat-suggestion"
                 onclick="sendQuick('How do I cancel a booking?')"
             >
                 Cancel booking
-            </button>
+            </span>
 
-            <button
-                type="button"
+            <span
                 class="chat-suggestion"
                 onclick="sendQuick('How do I file a complaint?')"
             >
                 Complaint
-            </button>
+            </span>
         </div>
 
         <div id="chatbot-input-row">
@@ -1606,15 +788,10 @@
                 type="text"
                 id="chatbot-input"
                 placeholder="Type your question..."
-                aria-label="Message to tourist help desk"
-                onkeydown="if(event.key === 'Enter' && !event.isComposing) { event.preventDefault(); sendMessage(); }"
+                onkeypress="if(event.key==='Enter') sendMessage()"
             >
 
-            <button
-                type="button"
-                id="chatbot-send"
-                onclick="sendMessage()"
-            >
+            <button id="chatbot-send" onclick="sendMessage()">
                 Send
             </button>
         </div>
@@ -1623,33 +800,14 @@
     <script>
         function toggleChatbot() {
             const win = document.getElementById('chatbot-window');
-            const toggle = document.getElementById('chatbot-toggle');
-            const opening = win.style.display !== 'flex';
 
-            win.style.display = opening ? 'flex' : 'none';
-            toggle.setAttribute('aria-expanded', String(opening));
-            toggle.setAttribute(
-                'aria-label',
-                opening
-                    ? 'Close tourist help desk'
-                    : 'Open tourist help desk'
-            );
+            win.style.display =
+                win.style.display === 'flex' ? 'none' : 'flex';
 
-            if (opening) {
+            if (win.style.display === 'flex') {
                 document.getElementById('chatbot-input').focus();
-            } else {
-                toggle.focus();
             }
         }
-
-        document.getElementById('chatbot-window').addEventListener(
-            'keydown',
-            function (event) {
-                if (event.key === 'Escape') {
-                    toggleChatbot();
-                }
-            }
-        );
 
         function sendQuick(text) {
             document.getElementById('chatbot-input').value = text;
@@ -1658,67 +816,71 @@
 
         const botReplies = [
             {
+                keywords: ['book', 'booking', 'reserve'],
+                reply: 'To book a visit: go to <a href="/destinations/">Destinations</a>, open any location, and click "Book a Visit". You\'ll need to be logged in first.'
+            },
+            {
                 keywords: ['cancel'],
-                reply: 'You can cancel a PENDING booking from <a href="{% url "my_bookings" %}">My Bookings</a> using the "Cancel Booking" button.'
+                reply: 'You can cancel any PENDING booking from the <a href="/bookings/my-bookings/">My Bookings</a> page using the "Cancel Booking" button.'
+            },
+            {
+                keywords: ['visa'],
+                reply: 'Most foreign nationals (except Indian citizens) need a visa, available on arrival at Tribhuvan International Airport or land borders. See our <a href="/guidelines/">Tourist Guidelines</a> page for full details.'
             },
             {
                 keywords: ['complaint', 'grievance', 'issue', 'problem'],
-                reply: 'Submit your concern through the <a href="{% url "grievance" %}">Grievance form</a>.'
+                reply: 'You can file a complaint through our <a href="/grievance/">Grievance</a> page. Our office reviews all submissions.'
             },
             {
                 keywords: ['payment', 'pay', 'advance', 'esewa'],
-                reply: 'Selecting a hotel adds a 10% advance based on one night’s rate. This project uses the eSewa sandbox. Payment options appear in <a href="{% url "my_bookings" %}">My Bookings</a>.'
-            },
-            {
-                keywords: ['pdf', 'download', 'receipt', 'confirmation'],
-                reply: 'Download your booking PDF from its details page or <a href="{% url "my_bookings" %}">My Bookings</a>.'
-            },
-            {
-                keywords: ['confirm', 'status', 'pending'],
-                reply: 'Bookings start as PENDING. After administrative review, you can see the decision in <a href="{% url "my_bookings" %}">My Bookings</a>.'
-            },
-            {
-                keywords: ['visa', 'guideline', 'rule', 'permit'],
-                reply: 'Please consult the <a href="{% url "guidelines" %}">Tourist Guidelines</a> for visitor information and check current requirements with the relevant authority before travelling.'
+                reply: 'If a hotel is selected during booking, a 10% advance payment is required via eSewa. You can pay anytime from your <a href="/bookings/my-bookings/">My Bookings</a> page.'
             },
             {
                 keywords: ['register', 'sign up', 'account'],
-                reply: 'Use the <a href="{% url "register" %}">Registration page</a> to create your tourist account.'
+                reply: 'Click "Register" in the top navigation to create a tourist account with your name, email, and contact details.'
             },
             {
                 keywords: ['login', 'log in', 'sign in'],
-                reply: 'Open the <a href="{% url "login" %}">Login page</a> and enter your username and password.'
+                reply: 'Click "Login" in the top navigation and enter your username and password.'
             },
             {
-                keywords: ['book', 'booking', 'reserve'],
-                reply: 'Open <a href="{% url "destination_list" %}">Destinations</a>, select a location and choose "Book a Visit". You need to log in before submitting a booking.'
-            },
-            {
-                keywords: ['hotel', 'stay', 'accommodation'],
-                reply: 'Open a destination to view its associated hotels and their listed rates.'
+                keywords: ['confirm', 'status', 'pending'],
+                reply: 'Bookings start as PENDING and are reviewed by our office. You\'ll see a notification badge on "My Bookings" once your status is updated.'
             },
             {
                 keywords: [
                     'destination', 'places', 'visit', 'kathmandu',
                     'everest', 'chitwan', 'lumbini', 'annapurna', 'mustang'
                 ],
-                reply: 'Explore the <a href="{% url "destination_list" %}">Destinations page</a> for descriptions, galleries, maps and hotel information.'
+                reply: 'Browse all our destinations on the <a href="/destinations/">Destinations</a> page, including Kathmandu, Everest Base Camp, Chitwan, Lumbini, Annapurna Base Camp, and Mustang.'
+            },
+            {
+                keywords: ['hotel', 'stay', 'accommodation'],
+                reply: 'Each destination page has a "Where to Stay" section listing available hotels near that location.'
             },
             {
                 keywords: ['helpline', 'contact', 'phone', 'call'],
-                reply: 'The portal lists helpline <strong>1144</strong>. You can also submit a concern through the <a href="{% url "grievance" %}">Grievance form</a>.'
+                reply: 'You can reach the national tourism helpline at <strong>1144</strong>, shown at the top of every page.'
+            },
+            {
+                keywords: ['pdf', 'download', 'receipt', 'confirmation'],
+                reply: 'Once your booking is submitted, you can download a PDF confirmation from the success page or your "My Bookings" list.'
+            },
+            {
+                keywords: ['guideline', 'rule', 'permit'],
+                reply: 'Check our <a href="/guidelines/">Tourist Guidelines</a> page for visa, permit, and cultural etiquette information.'
             },
             {
                 keywords: ['notice', 'news', 'update'],
-                reply: 'Read the latest published updates on the <a href="{% url "notices" %}">Notices page</a>.'
+                reply: 'The latest official notices are published on our <a href="/notices/">Notices</a> page.'
             },
             {
                 keywords: ['hello', 'hi', 'namaste', 'hey'],
-                reply: 'Namaste! How can I help you use the Nepal Tourism Portal?'
+                reply: 'Namaste! How can I help you plan your visit to Nepal today?'
             },
             {
                 keywords: ['thank', 'thanks'],
-                reply: 'You are welcome! Let me know if you need more help.'
+                reply: 'You\'re most welcome! Let me know if there\'s anything else I can help with.'
             }
         ];
 
@@ -1731,7 +893,7 @@
                 }
             }
 
-            return 'I do not have an answer for that yet. Please use the <a href="{% url "grievance" %}">Grievance form</a> for further assistance.';
+            return 'I\'m not sure about that yet. For detailed help, please use our <a href="/grievance/">Grievance form</a> or call the helpline at <strong>1144</strong>.';
         }
 
         function sendMessage() {
@@ -1748,18 +910,19 @@
             messages.appendChild(userDiv);
 
             input.value = '';
-            messages.scrollTop = messages.scrollHeight;
 
             setTimeout(() => {
                 const botDiv = document.createElement('div');
                 botDiv.className = 'chat-msg bot';
                 botDiv.innerHTML = getBotReply(text);
                 messages.appendChild(botDiv);
+
                 messages.scrollTop = messages.scrollHeight;
             }, 400);
+
+            messages.scrollTop = messages.scrollHeight;
         }
     </script>
 
-    {% block extra_js %}{% endblock %}
 </body>
 </html>
