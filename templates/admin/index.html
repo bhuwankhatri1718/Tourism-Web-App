@@ -1,0 +1,302 @@
+{% extends "admin/base_site.html" %}
+{% load i18n log %}
+
+{% block bodyclass %}
+    {{ block.super }} tourism-admin-dashboard
+{% endblock %}
+
+{% block coltype %}colM{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block nav-breadcrumbs %}
+    <nav class="admin-dashboard-nav" aria-label="Administration navigation">
+        <div class="admin-dashboard-nav__inner">
+            <a
+                href="{% url 'admin:index' %}"
+                aria-current="page"
+            >
+                Dashboard
+            </a>
+
+            {% for app in app_list %}
+                <a href="#module-{{ app.app_label }}">
+                    {{ app.name }}
+                </a>
+            {% endfor %}
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+
+    <!-- Introduction -->
+    <div class="admin-dashboard__intro">
+        <div>
+            <p class="admin-dashboard__eyebrow">
+                Administration workspace
+            </p>
+
+            <h1>Dashboard</h1>
+
+            <p class="admin-dashboard__description">
+                Manage tourism information, review visitor requests
+                and maintain portal records.
+            </p>
+        </div>
+
+        <div class="admin-dashboard__date">
+            <span>Today</span>
+            <strong>{% now "l, j F Y" %}</strong>
+        </div>
+    </div>
+
+    <!-- Only display shortcuts the user can access -->
+    {% if perms.bookings.view_booking or perms.bookings.change_booking or perms.core.view_complaint or perms.core.change_complaint %}
+        <section
+            class="admin-work-queue"
+            aria-labelledby="work-queue-title"
+        >
+            <div class="admin-work-queue__intro">
+                <h2 id="work-queue-title">Requests requiring review</h2>
+
+                <p>
+                    Open pending bookings or unresolved grievances.
+                </p>
+            </div>
+
+            <div class="admin-work-queue__links">
+                {% if perms.bookings.view_booking or perms.bookings.change_booking %}
+                    <a
+                        href="{% url 'admin:bookings_booking_changelist' %}?status__exact=PENDING"
+                        class="admin-action-link"
+                    >
+                        Pending bookings
+                        <span aria-hidden="true">↗</span>
+                    </a>
+                {% endif %}
+
+                {% if perms.core.view_complaint or perms.core.change_complaint %}
+                    <a
+                        href="{% url 'admin:core_complaint_changelist' %}?status__exact=OPEN"
+                        class="admin-action-link admin-action-link--secondary"
+                    >
+                        Open grievances
+                        <span aria-hidden="true">↗</span>
+                    </a>
+                {% endif %}
+            </div>
+        </section>
+    {% endif %}
+
+    <div class="admin-dashboard__layout">
+
+        <!-- Model management -->
+        <div class="admin-management">
+
+            <div class="admin-section-heading">
+                <h2>Portal Management</h2>
+                <p>Select a record type to view or update its information.</p>
+            </div>
+
+            {% for app in app_list %}
+                <section
+                    class="admin-module"
+                    id="module-{{ app.app_label }}"
+                    aria-labelledby="title-{{ app.app_label }}"
+                >
+                    <div class="admin-module__heading">
+                        <div>
+                            <h3 id="title-{{ app.app_label }}">
+                                {{ app.name }}
+                            </h3>
+
+                            <p>
+                                {% if app.app_label == "accounts" %}
+                                    Tourist profiles and contact information
+                                {% elif app.app_label == "auth" %}
+                                    User accounts, groups and access permissions
+                                {% elif app.app_label == "bookings" %}
+                                    Visit requests, booking decisions and payment records
+                                {% elif app.app_label == "core" %}
+                                    Guidelines, notices and visitor grievances
+                                {% elif app.app_label == "destinations" %}
+                                    Destinations, accommodation and tourism information
+                                {% else %}
+                                    Manage {{ app.name|lower }} records
+                                {% endif %}
+                            </p>
+                        </div>
+
+                        <span class="admin-module__count">
+                            {{ app.models|length }}
+                            record type{{ app.models|length|pluralize }}
+                        </span>
+                    </div>
+
+                    <ul class="admin-model-list">
+                        {% for model in app.models %}
+                            <li class="admin-model-row">
+                                <div class="admin-model-row__name">
+                                    {% if model.admin_url %}
+                                        <a href="{{ model.admin_url }}">
+                                            {{ model.name }}
+                                        </a>
+                                    {% else %}
+                                        <span>{{ model.name }}</span>
+                                    {% endif %}
+                                </div>
+
+                                <div class="admin-model-row__actions">
+                                    {% if model.add_url %}
+                                        <a
+                                            href="{{ model.add_url }}"
+                                            class="admin-model-action admin-model-action--add"
+                                            aria-label="Add {{ model.name }}"
+                                        >
+                                            <span aria-hidden="true">+</span>
+                                            Add
+                                        </a>
+                                    {% endif %}
+
+                                    {% if model.admin_url %}
+                                        <a
+                                            href="{{ model.admin_url }}"
+                                            class="admin-model-action"
+                                            aria-label="{% if model.view_only %}View{% else %}Manage{% endif %} {{ model.name }}"
+                                        >
+                                            {% if model.view_only %}
+                                                View
+                                            {% else %}
+                                                Manage
+                                            {% endif %}
+
+                                            <span aria-hidden="true">↗</span>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% empty %}
+                <div class="admin-empty">
+                    <h3>No management sections available</h3>
+                    <p>
+                        Your account does not currently have access
+                        to any registered record types.
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Activity sidebar -->
+        <aside class="admin-dashboard__aside">
+
+            <section
+                class="admin-activity"
+                aria-labelledby="recent-activity-title"
+            >
+                <div class="admin-aside-heading">
+                    <h2 id="recent-activity-title">Recent Activity</h2>
+                    <p>Your latest recorded administration actions</p>
+                </div>
+
+                {% get_admin_log 8 as admin_log for_user user %}
+
+                {% if admin_log %}
+                    <ol class="admin-activity__list">
+                        {% for entry in admin_log %}
+                            <li class="admin-activity__item">
+
+                                <span
+                                    class="admin-activity__marker {% if entry.is_addition %}admin-activity__marker--add{% elif entry.is_deletion %}admin-activity__marker--delete{% endif %}"
+                                    aria-hidden="true"
+                                ></span>
+
+                                <div class="admin-activity__body">
+                                    <span class="admin-activity__type">
+                                        {% if entry.is_addition %}
+                                            Added
+                                        {% elif entry.is_change %}
+                                            Updated
+                                        {% elif entry.is_deletion %}
+                                            Deleted
+                                        {% else %}
+                                            Action
+                                        {% endif %}
+
+                                        {% if entry.content_type %}
+                                            · {{ entry.content_type.name|capfirst }}
+                                        {% endif %}
+                                    </span>
+
+                                    {% if entry.is_deletion or not entry.get_admin_url %}
+                                        <p class="admin-activity__object">
+                                            {{ entry.object_repr }}
+                                        </p>
+                                    {% else %}
+                                        <a
+                                            href="{{ entry.get_admin_url }}"
+                                            class="admin-activity__object"
+                                        >
+                                            {{ entry.object_repr }}
+                                        </a>
+                                    {% endif %}
+
+                                    <time
+                                        datetime="{{ entry.action_time|date:'c' }}"
+                                        class="admin-activity__time"
+                                    >
+                                        {{ entry.action_time|date:"d M Y, H:i" }}
+                                    </time>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                {% else %}
+                    <p class="admin-aside-empty">
+                        Your recent actions will appear here after
+                        you add, update or delete a record.
+                    </p>
+                {% endif %}
+            </section>
+
+            <section
+                class="admin-help"
+                aria-labelledby="admin-help-title"
+            >
+                <h2 id="admin-help-title">Administration Notes</h2>
+
+                <ul>
+                    <li>
+                        Review visit details before confirming or
+                        rejecting a booking.
+                    </li>
+
+                    <li>
+                        Payment status and booking status are
+                        separate records.
+                    </li>
+
+                    <li>
+                        Publish clear notices and keep destination
+                        information up to date.
+                    </li>
+
+                    <li>
+                        Mark grievances as resolved after addressing
+                        the reported concern.
+                    </li>
+                </ul>
+            </section>
+
+        </aside>
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

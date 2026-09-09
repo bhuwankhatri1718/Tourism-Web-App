@@ -1,13 +1,103 @@
 {% extends "admin/base.html" %}
 {% load static %}
 
+{% block title %}
+    {{ title }} | Nepal Tourism Administration
+{% endblock %}
+
 {% block extrastyle %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'css/admin-custom.css' %}?v=1">
+    <link
+        rel="stylesheet"
+        href="{% static 'css/admin-custom.css' %}?v=5"
+    >
+{% endblock %}
+
+{% block responsive %}
+    {{ block.super }}
+    <link
+        rel="stylesheet"
+        href="{% static 'css/admin-custom.css' %}?v=5"
+    >
+{% endblock %}
+
+{% block dark-mode-vars %}
+    <!-- This administration theme uses a consistent light appearance. -->
 {% endblock %}
 
 {% block branding %}
-    <h1 id="site-name">
-        <a href="{% url 'admin:index' %}">Nepal Tourism E-Governance Portal — Administration</a>
-    </h1>
+    <a href="{% url 'admin:index' %}" class="admin-brand">
+        <img
+            src="{% static 'images/logo.png' %}"
+            alt="Nepal emblem"
+            width="78"
+            height="78"
+            class="admin-brand__logo"
+        >
+
+        <div class="admin-brand__text">
+            <span class="admin-brand__eyebrow">
+                Nepal Tourism E-Governance Portal
+            </span>
+
+            <span class="admin-brand__title">
+                Tourism Administration
+            </span>
+
+            <span class="admin-brand__subtitle">
+                Records, bookings and visitor services
+            </span>
+        </div>
+    </a>
+{% endblock %}
+
+{% block usertools %}
+    {% if has_permission %}
+        <div id="user-tools" class="admin-user-tools">
+            <div class="admin-user-tools__identity">
+                <span class="admin-user-tools__label">Signed in as</span>
+                <strong>
+                    {% firstof user.get_short_name user.get_username %}
+                </strong>
+            </div>
+
+            <div class="admin-user-tools__links">
+                {% if site_url %}
+                    <a href="{{ site_url }}">
+                        View website ↗
+                    </a>
+                {% endif %}
+
+                {% if user.has_usable_password %}
+                    <a href="{% url 'admin:password_change' %}">
+                        Change password
+                    </a>
+                {% endif %}
+
+                <form
+                    id="logout-form"
+                    method="post"
+                    action="{% url 'admin:logout' %}"
+                >
+                    {% csrf_token %}
+                    <button type="submit">Log out</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    <div class="admin-footer">
+        <span>
+            &copy; {% now "Y" %} Nepal Tourism Portal.
+            Academic demonstration project.
+        </span>
+
+        {% if has_permission %}
+            <a href="{% url 'admin:index' %}">
+                Administration dashboard
+            </a>
+        {% endif %}
+    </div>
 {% endblock %}
