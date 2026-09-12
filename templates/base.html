@@ -438,7 +438,7 @@
             <li><a href="{% url 'stats' %}">Statistics</a></li>
 
             {% if user.is_authenticated %}
-            {% include 'includes/booking_notifications.html' %}
+            
                 <li>
                     <a
                         href="{% url 'my_bookings' %}"
@@ -476,6 +476,22 @@
                         </button>
                     </form>
                 </li>
+
+                <li>
+    <form method="POST" action="{% url 'logout' %}" style="margin:0;">
+        {% csrf_token %}
+        <button type="submit"
+                style="background:none; border:none; color:#fff; font-size:14px; font-weight:500; padding:12px 20px; cursor:pointer; font-family:inherit;">
+            Logout
+        </button>
+    </form>
+</li>
+
+{% include 'includes/booking_notifications.html' %}
+
+
+
+
             {% else %}
                 <li><a href="{% url 'login' %}">Login</a></li>
                 <li><a href="{% url 'register' %}">Register</a></li>

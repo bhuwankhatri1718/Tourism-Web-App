@@ -726,3 +726,38 @@ a {
 
 
 
+
+
+
+/* Let the navigation occupy the full available width. */
+.main-nav > ul {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding-right: 24px;
+}
+
+/* Push the notification bell to the far-right corner. */
+.main-nav > ul > #booking-notifications {
+    margin-left: auto;
+    flex: 0 0 auto;
+}
+
+/* Open the dropdown inward from the right edge. */
+#booking-notifications #notification-panel {
+    right: 0;
+    left: auto;
+}
+
+@media (max-width: 600px) {
+    #booking-notifications #notification-panel {
+        left: 12px;
+        right: 12px;
+    }
+}
+
+
+
