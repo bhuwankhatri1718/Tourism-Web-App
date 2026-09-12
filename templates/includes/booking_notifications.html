@@ -1,0 +1,318 @@
+<li
+    id="booking-notifications"
+    data-feed="{% url 'notification_list' %}"
+>
+    <button
+        type="button"
+        id="notification-toggle"
+        aria-label="Booking notifications"
+        aria-expanded="false"
+        aria-controls="notification-panel"
+    >
+        <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            aria-hidden="true"
+        >
+            <path
+                d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"
+            ></path>
+        </svg>
+
+        <span id="notification-count" hidden></span>
+    </button>
+
+    <section
+        id="notification-panel"
+        aria-label="Booking notifications"
+        hidden
+    >
+        <h3>Booking notifications</h3>
+
+        <p id="notification-feedback" role="status">
+            Loading notifications…
+        </p>
+
+        <div id="notification-items"></div>
+
+        <a
+            href="{% url 'my_bookings' %}"
+            class="notification-all"
+        >
+            View my bookings
+        </a>
+    </section>
+
+    <div id="notification-csrf" hidden>
+        {% csrf_token %}
+    </div>
+</li>
+
+<style>
+    #booking-notifications {
+        position: relative;
+        list-style: none;
+    }
+
+    #notification-toggle {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 48px;
+        min-height: 48px;
+        border: none;
+        background: transparent;
+        color: white;
+        cursor: pointer;
+    }
+
+    #notification-count {
+        position: absolute;
+        top: 2px;
+        right: 0;
+        min-width: 18px;
+        padding: 2px 4px;
+        border-radius: 12px;
+        background: #c8102e;
+        color: white;
+        font: 700 11px Arial, sans-serif;
+    }
+
+    #notification-panel {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 360px;
+        max-width: calc(100vw - 24px);
+        z-index: 1100;
+        overflow: hidden;
+        background: white;
+        color: #172b45;
+        border: 1px solid #d6dee9;
+        border-radius: 8px;
+        box-shadow: 0 8px 28px rgba(0, 27, 59, 0.2);
+        text-align: left;
+    }
+
+    #notification-panel[hidden],
+    #notification-count[hidden] {
+        display: none;
+    }
+
+    #notification-panel h3 {
+        margin: 0;
+        padding: 18px;
+        font-size: 17px;
+        border-bottom: 1px solid #d6dee9;
+    }
+
+    #notification-feedback {
+        margin: 0;
+        padding: 12px 18px;
+        font-size: 13px;
+        color: #516176;
+    }
+
+    #notification-items {
+        max-height: 330px;
+        overflow-y: auto;
+    }
+
+    #notification-items form {
+        margin: 0;
+    }
+
+    #notification-items .notification-entry {
+        display: block;
+        width: 100%;
+        padding: 14px 18px;
+        border: none;
+        border-bottom: 1px solid #e5eaf0;
+        background: white;
+        color: #172b45;
+        text-align: left;
+        white-space: normal;
+        font: 14px/1.5 Arial, sans-serif;
+        cursor: pointer;
+    }
+
+    #notification-items .notification-entry.unread {
+        border-left: 4px solid #245cb0;
+        background: #edf4ff;
+        font-weight: 600;
+    }
+
+    #notification-items .notification-entry:hover {
+        background: #e2ecf8;
+    }
+
+    .notification-entry time {
+        display: block;
+        margin-top: 5px;
+        color: #617087;
+        font-size: 12px;
+        font-weight: 400;
+    }
+
+    #notification-panel .notification-all {
+        display: block;
+        padding: 14px 18px;
+        background: #f5f7fa;
+        color: #174f95;
+        font-size: 14px;
+    }
+
+    #notification-toggle:focus-visible,
+    .notification-entry:focus-visible {
+        outline: 3px solid #e6a800;
+        outline-offset: 2px;
+    }
+
+    @media (max-width: 600px) {
+        #notification-panel {
+            position: fixed;
+            top: 150px;
+            left: 12px;
+            right: 12px;
+            width: auto;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+    }
+</style>
+
+<script>
+    (() => {
+        const root = document.getElementById("booking-notifications");
+        if (!root) return;
+
+        const toggle = document.getElementById("notification-toggle");
+        const panel = document.getElementById("notification-panel");
+        const count = document.getElementById("notification-count");
+        const feedback = document.getElementById("notification-feedback");
+        const items = document.getElementById("notification-items");
+
+        let busy = false;
+        let lastItems = "";
+
+        function closePanel() {
+            panel.hidden = true;
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        async function refreshNotifications() {
+            if (busy || document.hidden) return;
+
+            busy = true;
+
+            try {
+                const response = await fetch(root.dataset.feed, {
+                    credentials: "same-origin",
+                    cache: "no-store",
+                });
+
+                if (!response.ok || response.redirected) {
+                    throw new Error("Unable to load notifications");
+                }
+
+                const data = await response.json();
+
+                count.textContent =
+                    data.unread_count > 99 ? "99+" : data.unread_count;
+
+                count.hidden = data.unread_count === 0;
+
+                toggle.setAttribute(
+                    "aria-label",
+                    `Booking notifications, ${data.unread_count} unread`
+                );
+
+                feedback.textContent = data.items.length
+                    ? `${data.unread_count} unread · Latest updates`
+                    : "No booking updates yet.";
+
+                const serialized = JSON.stringify(data.items);
+
+                if (serialized !== lastItems) {
+                    items.replaceChildren();
+
+                    data.items.forEach((item) => {
+                        const form = document.createElement("form");
+                        form.method = "post";
+                        form.action = item.open_url;
+
+                        const csrf = document.querySelector(
+                            "#notification-csrf input"
+                        );
+
+                        form.append(csrf.cloneNode(true));
+
+                        const button = document.createElement("button");
+                        button.type = "submit";
+                        button.className =
+                            "notification-entry" +
+                            (item.is_read ? "" : " unread");
+
+                        button.textContent = item.message;
+
+                        const time = document.createElement("time");
+                        time.dateTime = item.created_at;
+                        time.textContent = new Date(
+                            item.created_at
+                        ).toLocaleString();
+
+                        button.append(time);
+                        form.append(button);
+                        items.append(form);
+                    });
+
+                    lastItems = serialized;
+                }
+            } catch (error) {
+                feedback.textContent =
+                    "Unable to refresh. Please try again or sign in again.";
+            } finally {
+                busy = false;
+            }
+        }
+
+        toggle.addEventListener("click", () => {
+            panel.hidden = !panel.hidden;
+
+            toggle.setAttribute(
+                "aria-expanded",
+                String(!panel.hidden)
+            );
+
+            if (!panel.hidden) {
+                refreshNotifications();
+            }
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!root.contains(event.target)) {
+                closePanel();
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && !panel.hidden) {
+                closePanel();
+                toggle.focus();
+            }
+        });
+
+        document.addEventListener(
+            "visibilitychange",
+            refreshNotifications
+        );
+
+        refreshNotifications();
+        setInterval(refreshNotifications, 20000);
+    })();
+</script>

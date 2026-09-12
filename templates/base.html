@@ -438,6 +438,7 @@
             <li><a href="{% url 'stats' %}">Statistics</a></li>
 
             {% if user.is_authenticated %}
+            {% include 'includes/booking_notifications.html' %}
                 <li>
                     <a
                         href="{% url 'my_bookings' %}"
