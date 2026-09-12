@@ -53,3 +53,20 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"{self.tourist.username} - {self.destination.name}"
+    
+
+class BookingNotification(models.Model):
+    booking = models.ForeignKey(
+        Booking,
+        on_delete=models.CASCADE,
+        related_name="notifications",
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=Booking.STATUS_CHOICES,
+    )
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at", "-pk"]
