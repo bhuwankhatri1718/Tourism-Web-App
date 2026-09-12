@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import notification_views
 
 urlpatterns = [
     path('book/<int:pk>/', views.book_destination_view, name='book_destination'),
@@ -10,4 +11,14 @@ urlpatterns = [
     path('payment/success/', views.payment_success_view, name='payment_success'),
     path('payment/failure/', views.payment_failure_view, name='payment_failure'),
     path('pdf/<int:pk>/', views.booking_pdf_view, name='booking_pdf'),
+    path(
+    "notifications/",
+    notification_views.notification_list,
+    name="notification_list",
+),
+path(
+    "notifications/<int:pk>/open/",
+    notification_views.notification_open,
+    name="notification_open",
+),
 ]
